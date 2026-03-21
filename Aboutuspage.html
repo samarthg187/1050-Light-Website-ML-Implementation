@@ -1,108 +1,394 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>1050 Lab 25 – Project Overview</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
 
     <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        :root {
-            --bg:       #07090f;
-            --bg-panel: #0e1320;
-            --bg-card:  #111827;
-            --border:   #1e2d45;
-            --text:     #e2e8f0;
-            --muted:    #64748b;
-            --accent:   #38bdf8;
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        html, body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+        :root {
+            --bg: #07090f;
+            --bg-panel: #0e1320;
+            --bg-card: #111827;
+            --border: #1e2d45;
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --accent: #38bdf8;
+        }
+
+        html,
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: "DM Sans", sans-serif;
+            min-height: 100vh;
+        }
 
         header {
             background: var(--bg-panel);
             border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 48px; height: 70px; position: sticky; top: 0; z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            height: 70px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        .site-title { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: 0.5px; line-height: 1.3; }
-        .site-title span { color: var(--accent); display: block; font-size: 0.7rem; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; }
 
-        nav { display: flex; gap: 6px; }
-        nav a { text-decoration: none; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; padding: 8px 16px; border-radius: 6px; border: 1px solid transparent; transition: all 0.2s; display: flex; align-items: center; gap: 7px; }
-        nav a:hover, nav a.active { color: var(--text); border-color: var(--border); background: var(--bg-card); text-decoration: none; }
-        nav a svg { width: 15px; height: 15px; flex-shrink: 0; }
+        .site-title {
+            font-family: "Space Mono", monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        .site-title span {
+            color: var(--accent);
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            gap: 6px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--muted);
+            font-family: "DM Sans", sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--text);
+            border-color: var(--border);
+            background: var(--bg-card);
+            text-decoration: none;
+        }
+
+        nav a svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
 
         .page-hero {
-            padding: 64px 48px 48px; border-bottom: 1px solid var(--border);
-            position: relative; overflow: hidden;
+            padding: 64px 48px 48px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
         }
+
         .page-hero::before {
-            content: ''; position: absolute; top: -60px; right: -60px;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(56,189,248,0.07) 0%, transparent 70%);
+            content: "";
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle,
+                    rgba(56, 189, 248, 0.07) 0%,
+                    transparent 70%);
             pointer-events: none;
         }
-        .page-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
-        .page-hero h1 { font-family: 'Space Mono', monospace; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; color: #fff; margin-bottom: 14px; line-height: 1.2; }
-        .page-hero h1 em { font-style: normal; color: var(--accent); }
-        .page-hero p { font-size: 0.95rem; color: var(--muted); max-width: 600px; line-height: 1.8; }
 
-        .content { padding: 48px 48px 64px; max-width: 900px; }
+        .page-eyebrow {
+            font-family: "Space Mono", monospace;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 18px;
+        }
 
-        .section-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
-        .content h2 { font-family: 'Space Mono', monospace; font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 16px; }
-        .prose { font-size: 0.92rem; color: var(--muted); line-height: 1.9; margin-bottom: 40px; }
-        .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+        .page-hero h1 {
+            font-family: "Space Mono", monospace;
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 14px;
+            line-height: 1.2;
+        }
 
-        .format-table { width: 100%; border-collapse: collapse; margin: 16px 0 40px; font-size: 0.85rem; }
-        .format-table th { background: var(--bg-card); color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-size: 0.7rem; padding: 10px 16px; border: 1px solid var(--border); text-align: left; }
-        .format-table td { padding: 10px 16px; border: 1px solid var(--border); color: var(--text); vertical-align: top; }
-        .format-table tr:nth-child(even) td { background: #0c1219; }
-        .mono { font-family: 'Space Mono', monospace; color: var(--accent); font-size: 0.8rem; }
+        .page-hero h1 em {
+            font-style: normal;
+            color: var(--accent);
+        }
 
-        .code-block { background: #060a12; border: 1px solid var(--border); border-radius: 8px; margin: 12px 0 32px; overflow: hidden; }
-        .code-header { background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; }
-        .code-header-left { display: flex; align-items: center; gap: 10px; }
-        .code-filename { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); }
-        .lang-badge { background: var(--border); color: var(--accent); border-radius: 4px; padding: 2px 8px; font-family: 'Space Mono', monospace; font-size: 0.68rem; }
-        .copy-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 4px; padding: 3px 10px; font-size: 0.72rem; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
-        .copy-btn:hover { color: var(--text); border-color: var(--accent); }
-        .code-block pre { margin: 0; padding: 20px; overflow-x: auto; font-family: 'Space Mono', monospace; font-size: 0.8rem; line-height: 1.8; color: var(--text); }
+        .page-hero p {
+            font-size: 0.95rem;
+            color: var(--muted);
+            max-width: 600px;
+            line-height: 1.8;
+        }
 
-        .kw  { color: #c084fc; }
-        .fn  { color: #60a5fa; }
-        .str { color: #86efac; }
-        .cm  { color: #334155; font-style: italic; }
-        .num { color: #fb923c; }
-        .op  { color: var(--muted); }
+        .content {
+            padding: 48px 48px 64px;
+            max-width: 900px;
+        }
 
-        footer { background: var(--bg-panel); border-top: 1px solid var(--border); padding: 28px 48px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
-        footer .foot-left { font-size: 0.8rem; color: var(--muted); line-height: 1.8; }
-        footer .foot-left strong { font-family: 'Space Mono', monospace; color: var(--text); display: block; margin-bottom: 4px; }
-        footer .foot-links { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
-        footer .foot-links a { text-decoration: none; color: var(--muted); font-size: 0.82rem; display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
-        footer .foot-links a:hover { color: var(--accent); text-decoration: none; }
+        .section-label {
+            font-family: "Space Mono", monospace;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .content h2 {
+            font-family: "Space Mono", monospace;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .prose {
+            font-size: 0.92rem;
+            color: var(--muted);
+            line-height: 1.9;
+            margin-bottom: 40px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 40px 0;
+        }
+
+        .format-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 40px;
+            font-size: 0.85rem;
+        }
+
+        .format-table th {
+            background: var(--bg-card);
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.7rem;
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .format-table td {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            color: var(--text);
+            vertical-align: top;
+        }
+
+        .format-table tr:nth-child(even) td {
+            background: #0c1219;
+        }
+
+        .mono {
+            font-family: "Space Mono", monospace;
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+
+        .code-block {
+            background: #060a12;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin: 12px 0 32px;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .code-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-filename {
+            font-family: "Space Mono", monospace;
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .lang-badge {
+            background: var(--border);
+            color: var(--accent);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-family: "Space Mono", monospace;
+            font-size: 0.68rem;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            border-radius: 4px;
+            padding: 3px 10px;
+            font-size: 0.72rem;
+            font-family: "DM Sans", sans-serif;
+            cursor: pointer;
+            transition:
+                color 0.2s,
+                border-color 0.2s;
+        }
+
+        .copy-btn:hover {
+            color: var(--text);
+            border-color: var(--accent);
+        }
+
+        .code-block pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: "Space Mono", monospace;
+            font-size: 0.8rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .kw {
+            color: #c084fc;
+        }
+
+        .fn {
+            color: #60a5fa;
+        }
+
+        .str {
+            color: #86efac;
+        }
+
+        .cm {
+            color: #334155;
+            font-style: italic;
+        }
+
+        .num {
+            color: #fb923c;
+        }
+
+        .op {
+            color: var(--muted);
+        }
+
+        footer {
+            background: var(--bg-panel);
+            border-top: 1px solid var(--border);
+            padding: 28px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        footer .foot-left {
+            font-size: 0.8rem;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        footer .foot-left strong {
+            font-family: "Space Mono", monospace;
+            color: var(--text);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        footer .foot-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        footer .foot-links a {
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.2s;
+        }
+
+        footer .foot-links a:hover {
+            color: var(--accent);
+            text-decoration: none;
+        }
     </style>
 </head>
-<body>
 
+<body>
     <header>
-        <div class="site-title">1050 Lab 25<span>Light Pollution Monitor</span></div>
+        <div class="site-title">
+            1050 Lab 25<span>Light Pollution Monitor</span>
+        </div>
         <nav>
             <a href="Homepage.html">
-                <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7A1 1 0 003 11h1v6a1 1 0 001 1h4v-4h2v4h4a1 1 0 001-1v-6h1a1 1 0 00.707-1.707l-7-7z"/></svg>
+                <svg viewBox="0 0 20 20" fill="currentColor">
+                    <path
+                        d="M10.707 2.293a1 1 0 00-1.414 0l-7 7A1 1 0 003 11h1v6a1 1 0 001 1h4v-4h2v4h4a1 1 0 001-1v-6h1a1 1 0 00.707-1.707l-7-7z" />
+                </svg>
                 Home
             </a>
             <a href="Aboutuspage.html" class="active">
-                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>
+                <svg viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                        clip-rule="evenodd" />
+                </svg>
                 Overview
             </a>
             <a href="SubmitReading.html">
-                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                <svg viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd" />
+                </svg>
                 Submit
             </a>
         </nav>
@@ -111,20 +397,25 @@
     <section class="page-hero">
         <p class="page-eyebrow">1050 · Lab 25 · Field Study</p>
         <h1>Project <em>Overview</em></h1>
-        <p>How the sensor system works, the data format it produces, and how this website processes it.</p>
+        <p>
+            How the sensor system works, the data format it produces, and how this
+            website processes it.
+        </p>
     </section>
 
     <div class="content">
-
         <p class="section-label">About</p>
         <h2>Project Description</h2>
         <p class="prose"><!-- Add your project description here --></p>
 
-        <hr class="divider">
+        <hr class="divider" />
 
         <p class="section-label">Data Format</p>
         <h2>Sensor Output</h2>
-        <p class="prose" style="margin-bottom:14px;">Each reading output by the sensor device is a comma-separated string of 6 values:</p>
+        <p class="prose" style="margin-bottom: 14px">
+            Each reading output by the sensor device is a comma-separated string of
+            6 values:
+        </p>
 
         <div class="code-block">
             <div class="code-header">
@@ -137,26 +428,75 @@
         </div>
 
         <table class="format-table">
-            <thead><tr><th>Field</th><th>Format</th><th>Example</th><th>Description</th></tr></thead>
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Format</th>
+                    <th>Example</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
             <tbody>
-                <tr><td>Year</td>       <td class="mono">yyyy</td>   <td class="mono">2024</td>     <td>4-digit calendar year</td></tr>
-                <tr><td>Date</td>       <td class="mono">mmdd</td>   <td class="mono">0315</td>     <td>2-digit month + 2-digit day (March 15)</td></tr>
-                <tr><td>Time</td>       <td class="mono">hhmmss</td> <td class="mono">143022</td>  <td>24-hour hour, minute, second (14:30:22)</td></tr>
-                <tr><td>Luminosity</td> <td class="mono">lumins</td> <td class="mono">450</td>     <td>Light level in lumens (numeric)</td></tr>
-                <tr><td>Latitude</td>   <td class="mono">lat</td>    <td class="mono">42.9837</td> <td>GPS latitude in decimal degrees</td></tr>
-                <tr><td>Longitude</td>  <td class="mono">lng</td>    <td class="mono">-81.2497</td><td>GPS longitude in decimal degrees</td></tr>
+                <tr>
+                    <td>Year</td>
+                    <td class="mono">yyyy</td>
+                    <td class="mono">2024</td>
+                    <td>4-digit calendar year</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td class="mono">mmdd</td>
+                    <td class="mono">0315</td>
+                    <td>2-digit month + 2-digit day (March 15)</td>
+                </tr>
+                <tr>
+                    <td>Time</td>
+                    <td class="mono">hhmmss</td>
+                    <td class="mono">143022</td>
+                    <td>24-hour hour, minute, second (14:30:22)</td>
+                </tr>
+                <tr>
+                    <td>Luminosity</td>
+                    <td class="mono">lumins</td>
+                    <td class="mono">450</td>
+                    <td>Light level in lumens (numeric)</td>
+                </tr>
+                <tr>
+                    <td>Latitude</td>
+                    <td class="mono">lat</td>
+                    <td class="mono">42.9837</td>
+                    <td>GPS latitude in decimal degrees</td>
+                </tr>
+                <tr>
+                    <td>Longitude</td>
+                    <td class="mono">lng</td>
+                    <td class="mono">-81.2497</td>
+                    <td>GPS longitude in decimal degrees</td>
+                </tr>
             </tbody>
         </table>
 
-        <hr class="divider">
+        <hr class="divider" />
 
         <p class="section-label">Code</p>
         <h2>Key Snippets</h2>
 
-        <p class="prose" style="margin-bottom:12px;">Saving a sensor reading to <code style="font-family:'Space Mono',monospace;color:var(--accent);background:#060a12;padding:1px 6px;border-radius:4px;font-size:0.8rem;">localStorage</code>:</p>
+        <p class="prose" style="margin-bottom: 12px">
+            Saving a sensor reading to
+            <code style="
+            font-family: &quot;Space Mono&quot;, monospace;
+            color: var(--accent);
+            background: #060a12;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+          ">localStorage</code>:
+        </p>
         <div class="code-block">
             <div class="code-header">
-                <div class="code-header-left"><span class="code-filename">saveReading.js</span><span class="lang-badge">JS</span></div>
+                <div class="code-header-left">
+                    <span class="code-filename">saveReading.js</span><span class="lang-badge">JS</span>
+                </div>
                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
             </div>
             <pre><span class="kw">const</span> STORAGE_KEY <span class="op">=</span> <span class="str">'hypercell_sensor_readings'</span><span class="op">;</span>
@@ -176,58 +516,14 @@
   localStorage<span class="op">.</span><span class="fn">setItem</span><span class="op">(</span>STORAGE_KEY<span class="op">,</span> JSON<span class="op">.</span><span class="fn">stringify</span><span class="op">(</span>existing<span class="op">));</span>
 <span class="op">}</span></pre>
         </div>
-
-        <p class="prose" style="margin-bottom:12px;">Rendering colour-coded pins on the Leaflet map:</p>
-        <div class="code-block">
-            <div class="code-header">
-                <div class="code-header-left"><span class="code-filename">renderMap.js</span><span class="lang-badge">JS</span></div>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><span class="kw">function</span> <span class="fn">lumColour</span><span class="op">(</span>lum<span class="op">) {</span>
-  <span class="kw">if</span> <span class="op">(</span>lum <span class="op">&lt;</span> <span class="num">300</span><span class="op">)</span>  <span class="kw">return</span> <span class="str">'#3b82f6'</span><span class="op">;</span>  <span class="cm">// blue  – low</span>
-  <span class="kw">if</span> <span class="op">(</span>lum <span class="op">&lt;=</span> <span class="num">700</span><span class="op">)</span> <span class="kw">return</span> <span class="str">'#f59e0b'</span><span class="op">;</span>  <span class="cm">// amber – mid</span>
-  <span class="kw">return</span> <span class="str">'#ef4444'</span><span class="op">;</span>                  <span class="cm">// red   – high</span>
-<span class="op">}</span>
-
-<span class="kw">function</span> <span class="fn">loadAndRender</span><span class="op">() {</span>
-  <span class="kw">const</span> readings <span class="op">=</span> JSON<span class="op">.</span><span class="fn">parse</span><span class="op">(</span>localStorage<span class="op">.</span><span class="fn">getItem</span><span class="op">(</span>STORAGE_KEY<span class="op">) ||</span> <span class="str">'[]'</span><span class="op">);</span>
-  readings<span class="op">.</span><span class="fn">forEach</span><span class="op">(</span>r <span class="op">=></span> <span class="op">{</span>
-    <span class="kw">const</span> <span class="op">[</span>lat<span class="op">,</span> lng<span class="op">]</span> <span class="op">=</span> r<span class="op">.</span>coordinates<span class="op">;</span>
-    L<span class="op">.</span><span class="fn">circleMarker</span><span class="op">([</span>lat<span class="op">,</span> lng<span class="op">], {</span>
-      radius<span class="op">:</span>      <span class="num">8</span><span class="op">,</span>
-      fillColor<span class="op">:</span>   <span class="fn">lumColour</span><span class="op">(</span>r<span class="op">.</span>lumins<span class="op">),</span>
-      fillOpacity<span class="op">:</span> <span class="num">0.9</span>
-    <span class="op">}).</span><span class="fn">addTo</span><span class="op">(</span>map<span class="op">);</span>
-  <span class="op">});</span>
-<span class="op">}</span></pre>
-        </div>
-
-        <p class="prose" style="margin-bottom:12px;">Validation logic for the raw sensor string:</p>
-        <div class="code-block">
-            <div class="code-header">
-                <div class="code-header-left"><span class="code-filename">validateSensor.js</span><span class="lang-badge">JS</span></div>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><span class="kw">function</span> <span class="fn">validateSensor</span><span class="op">(</span>val<span class="op">) {</span>
-  <span class="kw">const</span> parts <span class="op">=</span> val<span class="op">.</span><span class="fn">split</span><span class="op">(</span><span class="str">','</span><span class="op">).</span><span class="fn">map</span><span class="op">(</span>p <span class="op">=></span> p<span class="op">.</span><span class="fn">trim</span><span class="op">());</span>
-  <span class="kw">if</span> <span class="op">(</span>parts<span class="op">.</span>length <span class="op">!==</span> <span class="num">6</span><span class="op">)</span> <span class="kw">return</span> <span class="kw">false</span><span class="op">;</span>
-  <span class="kw">const</span> <span class="op">[</span>yyyy<span class="op">,</span> mmdd<span class="op">,</span> hhmmss<span class="op">,</span> lumins<span class="op">,</span> lat<span class="op">,</span> lng<span class="op">]</span> <span class="op">=</span> parts<span class="op">;</span>
-  <span class="kw">if</span> <span class="op">(!/^\d{4}$/.</span><span class="fn">test</span><span class="op">(</span>yyyy<span class="op">))</span>   <span class="kw">return</span> <span class="kw">false</span><span class="op">;</span>
-  <span class="kw">if</span> <span class="op">(!/^\d{4}$/.</span><span class="fn">test</span><span class="op">(</span>mmdd<span class="op">))</span>   <span class="kw">return</span> <span class="kw">false</span><span class="op">;</span>
-  <span class="kw">if</span> <span class="op">(!/^\d{6}$/.</span><span class="fn">test</span><span class="op">(</span>hhmmss<span class="op">))</span> <span class="kw">return</span> <span class="kw">false</span><span class="op">;</span>
-  <span class="kw">if</span> <span class="op">(</span><span class="fn">isNaN</span><span class="op">(</span>lumins<span class="op">) ||</span> <span class="op">+</span>lumins <span class="op">&lt;</span> <span class="num">0</span><span class="op">)</span>           <span class="kw">return</span> <span class="kw">false</span><span class="op">;</span>
-  <span class="kw">if</span> <span class="op">(</span><span class="fn">isNaN</span><span class="op">(</span>lat<span class="op">) ||</span> <span class="op">+</span>lat <span class="op">&lt; -</span><span class="num">90</span>  <span class="op">||</span> <span class="op">+</span>lat <span class="op">&gt;</span> <span class="num">90</span> <span class="op">)</span> <span class="kw">return</span> <span class="kw">false</span><span class="op">;</span>
-  <span class="kw">if</span> <span class="op">(</span><span class="fn">isNaN</span><span class="op">(</span>lng<span class="op">) ||</span> <span class="op">+</span>lng <span class="op">&lt; -</span><span class="num">180</span> <span class="op">||</span> <span class="op">+</span>lng <span class="op">&gt;</span> <span class="num">180</span><span class="op">)</span> <span class="kw">return</span> <span class="kw">false</span><span class="op">;</span>
-  <span class="kw">return</span> <span class="kw">true</span><span class="op">;</span>
-<span class="op">}</span></pre>
-        </div>
-
     </div>
 
     <footer>
-        <div class="foot-left"><strong>1050 Lab 25 – Light Pollution</strong>London, Ontario</div>
+        <div class="foot-left">
+            <strong>1050 Lab 25 – Light Pollution</strong>London, Ontario
+        </div>
         <div class="foot-links">
-            <span style="font-size:0.78rem;color:var(--muted);">Contact Us:</span>
+            <span style="font-size: 0.78rem; color: var(--muted)">Contact Us:</span>
             <a href="https://mail.google.com/mail/u/0/#inbox">
                 <svg viewBox="0 0 20 20" fill="currentColor" width="14">
                     <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
@@ -261,13 +557,14 @@
     </footer>
 
     <script>
-    function copyCode(btn) {
-        const pre = btn.closest('.code-block').querySelector('pre');
-        navigator.clipboard.writeText(pre.innerText).then(() => {
-            btn.textContent = 'Copied!';
-            setTimeout(() => btn.textContent = 'Copy', 2000);
-        });
-    }
+        function copyCode(btn) {
+            const pre = btn.closest(".code-block").querySelector("pre");
+            navigator.clipboard.writeText(pre.innerText).then(() => {
+                btn.textContent = "Copied!";
+                setTimeout(() => (btn.textContent = "Copy"), 2000);
+            });
+        }
     </script>
 </body>
+
 </html>
