@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1050 Lab 25 – Submit Reading</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:         #07090f;
+            --bg-panel:   #0e1320;
+            --bg-card:    #111827;
+            --border:     #1e2d45;
+            --text:       #e2e8f0;
+            --muted:      #64748b;
+            --accent:     #38bdf8;
+            --lum-high:   #ef4444;
+            --success:    #22c55e;
+            --warn-bg:    #1a1000;
+            --warn-border:#b45309;
+            --warn-text:  #fbbf24;
+        }
+
+        html, body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+        /* ── HEADER ── */
+        header {
+            background: var(--bg-panel); border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 48px; height: 70px; position: sticky; top: 0; z-index: 1000;
+        }
+        .site-title { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: 0.5px; line-height: 1.3; }
+        .site-title span { color: var(--accent); display: block; font-size: 0.7rem; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; }
+
+        nav { display: flex; gap: 6px; }
+        nav a { text-decoration: none; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; padding: 8px 16px; border-radius: 6px; border: 1px solid transparent; transition: all 0.2s; display: flex; align-items: center; gap: 7px; }
+        nav a:hover, nav a.active { color: var(--text); border-color: var(--border); background: var(--bg-card); text-decoration: none; }
+        nav a svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+        /* ── PAGE HERO ── */
+        .page-hero {
+            padding: 64px 48px 48px; border-bottom: 1px solid var(--border);
+            position: relative; overflow: hidden;
+        }
+        .page-hero::before {
+            content: ''; position: absolute; top: -60px; right: -60px;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(56,189,248,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .page-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+        .page-hero h1 { font-family: 'Space Mono', monospace; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; color: #fff; line-height: 1.2; }
+        .page-hero h1 em { font-style: normal; color: var(--accent); }
+
+        /* ── CONTENT ── */
+        .content { padding: 48px 48px 64px; max-width: 640px; }
+
+        /* ── DEMO BANNER ── */
+        .demo-banner {
+            background: var(--warn-bg);
+            border: 1px solid var(--warn-border);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .demo-banner-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--warn-text);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            flex: 1;
+            min-width: 200px;
+        }
+        .btn-demo {
+            background: var(--warn-border); color: #fff; border: none;
+            border-radius: 5px; padding: 6px 14px; font-size: 0.78rem;
+            font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif;
+            transition: opacity 0.2s;
+        }
+        .btn-demo:hover { opacity: 0.85; }
+        .btn-demo.outline {
+            background: transparent; border: 1px solid var(--warn-border);
+            color: var(--warn-text);
+        }
+
+        /* ── FORM CARD ── */
+        .form-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 28px; margin-bottom: 16px;
+        }
+        .section-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+        .form-card h2 { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+        .field-group { margin-bottom: 8px; }
+        .field-group label { display: block; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; font-family: 'Space Mono', monospace; }
+        .field-group input {
+            width: 100%; background: var(--bg); border: 1px solid var(--border);
+            border-radius: 6px; color: var(--text); font-family: 'Space Mono', monospace;
+            font-size: 0.85rem; padding: 11px 14px; transition: border-color 0.2s;
+        }
+        .field-group input:focus  { outline: none; border-color: var(--accent); }
+        .field-group input.valid  { border-color: var(--success); }
+        .field-group input.invalid{ border-color: var(--lum-high); }
+
+        .field-hint { font-size: 0.72rem; color: var(--muted); margin-top: 8px; font-family: 'Space Mono', monospace; display: flex; gap: 6px; flex-wrap: wrap; }
+        .hint-tag { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; color: var(--accent); }
+
+        .field-error { color: var(--lum-high); font-size: 0.75rem; margin-top: 6px; font-family: 'Space Mono', monospace; display: none; }
+
+        /* parsed preview */
+        .sensor-parsed {
+            display: none; margin-top: 14px; background: var(--bg);
+            border: 1px solid var(--border); border-radius: 6px; padding: 12px 16px;
+            font-family: 'Space Mono', monospace; font-size: 0.78rem; line-height: 2;
+        }
+        .sensor-parsed.visible { display: block; }
+        .parsed-row { display: flex; gap: 12px; }
+        .parsed-label { color: var(--muted); min-width: 100px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .parsed-val   { color: var(--accent); }
+
+        /* ── SUBMIT ── */
+        .submit-btn {
+            width: 100%; background: var(--accent); color: #07090f;
+            border: none; border-radius: 6px; padding: 12px;
+            font-family: 'Space Mono', monospace; font-size: 0.9rem;
+            font-weight: 700; letter-spacing: 1px; cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .submit-btn:hover { opacity: 0.88; }
+
+        /* ── SUCCESS ── */
+        .success-msg {
+            display: none; background: #031a0d; border: 1px solid #16a34a;
+            border-radius: 8px; padding: 16px 20px; margin-top: 14px;
+            font-family: 'Space Mono', monospace;
+        }
+        .success-msg.visible { display: block; }
+        .success-msg strong { color: var(--success); font-size: 0.85rem; display: block; margin-bottom: 4px; }
+        .success-msg span   { color: #4ade80; font-size: 0.75rem; }
+
+        /* ── FOOTER ── */
+        footer { background: var(--bg-panel); border-top: 1px solid var(--border); padding: 28px 48px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
+        footer .foot-left { font-size: 0.8rem; color: var(--muted); line-height: 1.8; }
+        footer .foot-left strong { font-family: 'Space Mono', monospace; color: var(--text); display: block; margin-bottom: 4px; }
+        footer .foot-links { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+        footer .foot-links a { text-decoration: none; color: var(--muted); font-size: 0.82rem; display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
+        footer .foot-links a:hover { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="site-title">1050 Lab 25<span>Light Pollution Monitor</span></div>
+        <nav>
+            <a href="Homepage.html">
+                <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7A1 1 0 003 11h1v6a1 1 0 001 1h4v-4h2v4h4a1 1 0 001-1v-6h1a1 1 0 00.707-1.707l-7-7z"/></svg>
+                Home
+            </a>
+            <a href="Aboutuspage.html">
+                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>
+                Overview
+            </a>
+            <a href="SubmitReading.html" class="active">
+                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                Submit
+            </a>
+        </nav>
+    </header>
+
+    <section class="page-hero">
+        <p class="page-eyebrow">1050 · Lab 25 · Field Study</p>
+        <h1>Submit <em>Reading</em></h1>
+    </section>
+
+    <div class="content">
+
+        <!-- DEMO BANNER -->
+        <div class="demo-banner">
+            <div class="demo-banner-title">⚠ For Demonstration Purposes Only</div>
+            <button class="btn-demo" onclick="injectDemoData()">Inject Sample Readings</button>
+            <button class="btn-demo outline" onclick="clearData()">Clear All Data</button>
+        </div>
+
+        <!-- SENSOR CARD -->
+        <div class="form-card">
+            <p class="section-label">Sensor Input</p>
+            <h2>Raw Sensor String</h2>
+            <div class="field-group">
+                <label>Reading</label>
+                <input type="text" id="sensor-input"
+                       placeholder="2024,0315,143022,450,42.9837,-81.2497"
+                       oninput="validateSensor(this)" autocomplete="off"/>
+                <div class="field-hint">
+                    <span class="hint-tag">yyyy</span>
+                    <span class="hint-tag">mmdd</span>
+                    <span class="hint-tag">hhmmss</span>
+                    <span class="hint-tag">lumins</span>
+                    <span class="hint-tag">lat</span>
+                    <span class="hint-tag">lng</span>
+                </div>
+                <div class="field-error" id="sensor-error"></div>
+                <div class="sensor-parsed" id="sensor-parsed">
+                    <div class="parsed-row"><span class="parsed-label">Date</span>        <span class="parsed-val" id="p-date"></span></div>
+                    <div class="parsed-row"><span class="parsed-label">Time</span>        <span class="parsed-val" id="p-time"></span></div>
+                    <div class="parsed-row"><span class="parsed-label">Luminosity</span> <span class="parsed-val" id="p-lum"></span></div>
+                    <div class="parsed-row"><span class="parsed-label">Coordinates</span><span class="parsed-val" id="p-coords"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <button class="submit-btn" onclick="submitForm()">Save Reading</button>
+
+        <div class="success-msg" id="success-msg">
+            <strong id="success-title">Reading saved!</strong>
+            <span id="success-sub">The entry has been stored and will appear on the map.</span>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="foot-left"><strong>1050 Lab 25 – Light Pollution</strong>London, Ontario</div>
+        <div class="foot-links">
+            <span style="font-size:0.78rem;color:var(--muted);">Contact Us:</span>
+            <a href="https://mail.google.com/mail/u/0/#inbox">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="14">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
+                Email
+            </a>
+            <a href="https://twitter.com/">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="14">
+                    <path
+                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                Twitter
+            </a>
+            <a href="https://www.facebook.com/">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="14">
+                    <path fill-rule="evenodd"
+                        d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z"
+                        clip-rule="evenodd" />
+                </svg>
+                Facebook
+            </a>
+            <a href="https://www.youtube.com/">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="14">
+                    <path
+                        d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                </svg>
+                YouTube
+            </a>
+        </div>
+    </footer>
+
+    <script>
+    const STORAGE_KEY = 'hypercell_sensor_readings';
+
+    function validateSensor(input) {
+        const val      = input.value.trim();
+        const errorEl  = document.getElementById('sensor-error');
+        const parsedEl = document.getElementById('sensor-parsed');
+
+        if (!val) { input.className = ''; errorEl.style.display = 'none'; parsedEl.classList.remove('visible'); return false; }
+
+        const parts = val.split(',').map(p => p.trim());
+        if (parts.length !== 6) return fail(input, errorEl, parsedEl, `Expected 6 values, got ${parts.length}.`);
+
+        const [yyyy, mmdd, hhmmss, lumins, lat, lng] = parts;
+
+        if (!/^\d{4}$/.test(yyyy) || +yyyy < 2000 || +yyyy > 2099)
+            return fail(input, errorEl, parsedEl, `"${yyyy}" is not a valid year.`);
+        if (!/^\d{4}$/.test(mmdd))
+            return fail(input, errorEl, parsedEl, `"${mmdd}" is not valid — expected mmdd e.g. 0315.`);
+        const mm = +mmdd.slice(0,2), dd = +mmdd.slice(2,4);
+        if (mm < 1 || mm > 12 || dd < 1 || dd > 31)
+            return fail(input, errorEl, parsedEl, `Month/day out of range in "${mmdd}".`);
+        if (!/^\d{6}$/.test(hhmmss))
+            return fail(input, errorEl, parsedEl, `"${hhmmss}" is not valid — expected hhmmss e.g. 143022.`);
+        const hh = +hhmmss.slice(0,2), mn = +hhmmss.slice(2,4), ss = +hhmmss.slice(4,6);
+        if (hh > 23 || mn > 59 || ss > 59)
+            return fail(input, errorEl, parsedEl, `Time values out of range in "${hhmmss}".`);
+        if (isNaN(lumins) || +lumins < 0)
+            return fail(input, errorEl, parsedEl, `"${lumins}" is not a valid luminosity value.`);
+        if (isNaN(lat) || +lat < -90 || +lat > 90)
+            return fail(input, errorEl, parsedEl, `"${lat}" is not a valid latitude.`);
+        if (isNaN(lng) || +lng < -180 || +lng > 180)
+            return fail(input, errorEl, parsedEl, `"${lng}" is not a valid longitude.`);
+
+        input.classList.remove('invalid'); input.classList.add('valid');
+        errorEl.style.display = 'none';
+
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        document.getElementById('p-date').textContent   = `${dd} ${months[mm-1]} ${yyyy}`;
+        document.getElementById('p-time').textContent   = `${pad(hh)}:${pad(mn)}:${pad(ss)}`;
+        document.getElementById('p-lum').textContent    = `${lumins} lm`;
+        document.getElementById('p-coords').textContent = `${(+lat).toFixed(5)}, ${(+lng).toFixed(5)}`;
+        parsedEl.classList.add('visible');
+        return true;
+    }
+
+    function fail(input, errorEl, parsedEl, msg) {
+        input.classList.remove('valid'); input.classList.add('invalid');
+        errorEl.textContent = msg; errorEl.style.display = 'block';
+        parsedEl.classList.remove('visible'); return false;
+    }
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function submitForm() {
+        const input = document.getElementById('sensor-input');
+        if (!validateSensor(input)) { input.focus(); return; }
+        const parts = input.value.trim().split(',').map(p => p.trim());
+        const entry = { yyyy: parts[0], mmdd: parts[1], hhmmss: parts[2], lumins: parseFloat(parts[3]), coordinates: [parseFloat(parts[4]), parseFloat(parts[5])] };
+        const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        existing.push(entry);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+        input.value = ''; input.className = '';
+        document.getElementById('sensor-parsed').classList.remove('visible');
+        showSuccess('Reading saved.', 'Entry stored — head to the homepage to see it on the map.');
+    }
+
+    function injectDemoData() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([
+            { yyyy:'2024', mmdd:'0315', hhmmss:'073000', lumins:95,   coordinates:[42.9837,-81.2497] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'080500', lumins:210,  coordinates:[42.9750,-81.2550] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'083012', lumins:450,  coordinates:[42.9921,-81.2560] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'090000', lumins:620,  coordinates:[42.9870,-81.2430] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'091500', lumins:820,  coordinates:[42.9760,-81.2380] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'100200', lumins:950,  coordinates:[43.0012,-81.2700] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'103045', lumins:310,  coordinates:[42.9680,-81.2600] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'110000', lumins:540,  coordinates:[42.9800,-81.2650] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'113000', lumins:780,  coordinates:[42.9950,-81.2480] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'120000', lumins:880,  coordinates:[42.9710,-81.2410] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'123500', lumins:420,  coordinates:[43.0050,-81.2580] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'130000', lumins:150,  coordinates:[42.9830,-81.2320] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'134500', lumins:670,  coordinates:[42.9890,-81.2750] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'141000', lumins:910,  coordinates:[42.9640,-81.2500] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'145500', lumins:350,  coordinates:[43.0100,-81.2620] },
+            { yyyy:'2024', mmdd:'0315', hhmmss:'153022', lumins:75,   coordinates:[42.9780,-81.2480] },
+            { yyyy:'2024', mmdd:'0316', hhmmss:'074000', lumins:130,  coordinates:[42.9900,-81.2350] },
+            { yyyy:'2024', mmdd:'0316', hhmmss:'082000', lumins:480,  coordinates:[42.9720,-81.2680] },
+            { yyyy:'2024', mmdd:'0316', hhmmss:'091500', lumins:720,  coordinates:[43.0030,-81.2440] },
+            { yyyy:'2024', mmdd:'0316', hhmmss:'100000', lumins:860,  coordinates:[42.9860,-81.2610] },
+            { yyyy:'2024', mmdd:'0316', hhmmss:'110500', lumins:290,  coordinates:[42.9690,-81.2360] },
+            { yyyy:'2024', mmdd:'0316', hhmmss:'120000', lumins:560,  coordinates:[43.0080,-81.2530] },
+            { yyyy:'2024', mmdd:'0316', hhmmss:'133000', lumins:990,  coordinates:[42.9810,-81.2740] },
+            { yyyy:'2024', mmdd:'0316', hhmmss:'145000', lumins:410,  coordinates:[42.9940,-81.2390] },
+            { yyyy:'2024', mmdd:'0316', hhmmss:'153022', lumins:180,  coordinates:[42.9770,-81.2520] },
+        ]));
+        showSuccess('Demo data injected.', '25 sample readings saved — head to the homepage to see them on the map.');
+    }
+
+    function clearData() {
+        localStorage.removeItem(STORAGE_KEY);
+        showSuccess('Data cleared.', 'All sensor readings removed from localStorage.');
+    }
+
+    function showSuccess(title, sub) {
+        const msg = document.getElementById('success-msg');
+        document.getElementById('success-title').textContent = title;
+        document.getElementById('success-sub').textContent   = sub;
+        msg.classList.add('visible');
+        setTimeout(() => msg.classList.remove('visible'), 5000);
+    }
+    </script>
+</body>
+</html>
