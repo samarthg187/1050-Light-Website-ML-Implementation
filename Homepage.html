@@ -580,14 +580,33 @@
             attribution: '© OpenStreetMap contributors', maxZoom: 19
         }).addTo(map);
 
-        function loadAndRender() {
+        const READINGS_URL = 'readings.json';
+
+        async function loadAndRender() {
             map.eachLayer(l => { if (l instanceof L.Marker) map.removeLayer(l); });
-            const readings = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+            let readings = [];
+
+            // 1. Try fetching from the repo's readings.json
+            try {
+                const res = await fetch(READINGS_URL + '?t=' + Date.now());
+                if (res.ok) readings = await res.json();
+            } catch (e) { /* file not found or offline */ }
+
+            // 2. Fallback: merge in anything from localStorage
+            const local = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            if (local.length) {
+                // Merge, deduplicate by timestamp+coords
+                const keys = new Set(readings.map(r => `${r.yyyy}${r.mmdd}${r.hhmmss}`));
+                local.forEach(r => { if (!keys.has(`${r.yyyy}${r.mmdd}${r.hhmmss}`)) readings.push(r); });
+            }
+
             if (!readings.length) {
                 ['stat-total', 'stat-avg', 'stat-peak', 'stat-latest']
                     .forEach(id => document.getElementById(id).textContent = '—');
                 return;
             }
+
             let totalLum = 0, peakLum = 0;
             const bounds = [];
             readings.forEach(r => {
@@ -617,43 +636,7 @@
         }
 
         loadAndRender();
-
-        function injectDemoData() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify([
-                { yyyy: '2024', mmdd: '0315', hhmmss: '073000', lumins: 95, coordinates: [42.9837, -81.2497] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '080500', lumins: 210, coordinates: [42.9750, -81.2550] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '083012', lumins: 450, coordinates: [42.9921, -81.2560] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '090000', lumins: 620, coordinates: [42.9870, -81.2430] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '091500', lumins: 820, coordinates: [42.9760, -81.2380] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '100200', lumins: 950, coordinates: [43.0012, -81.2700] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '103045', lumins: 310, coordinates: [42.9680, -81.2600] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '110000', lumins: 540, coordinates: [42.9800, -81.2650] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '113000', lumins: 780, coordinates: [42.9950, -81.2480] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '120000', lumins: 880, coordinates: [42.9710, -81.2410] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '123500', lumins: 420, coordinates: [43.0050, -81.2580] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '130000', lumins: 150, coordinates: [42.9830, -81.2320] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '134500', lumins: 670, coordinates: [42.9890, -81.2750] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '141000', lumins: 910, coordinates: [42.9640, -81.2500] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '145500', lumins: 350, coordinates: [43.0100, -81.2620] },
-                { yyyy: '2024', mmdd: '0315', hhmmss: '153022', lumins: 75, coordinates: [42.9780, -81.2480] },
-                { yyyy: '2024', mmdd: '0316', hhmmss: '074000', lumins: 130, coordinates: [42.9900, -81.2350] },
-                { yyyy: '2024', mmdd: '0316', hhmmss: '082000', lumins: 480, coordinates: [42.9720, -81.2680] },
-                { yyyy: '2024', mmdd: '0316', hhmmss: '091500', lumins: 720, coordinates: [43.0030, -81.2440] },
-                { yyyy: '2024', mmdd: '0316', hhmmss: '100000', lumins: 860, coordinates: [42.9860, -81.2610] },
-                { yyyy: '2024', mmdd: '0316', hhmmss: '110500', lumins: 290, coordinates: [42.9690, -81.2360] },
-                { yyyy: '2024', mmdd: '0316', hhmmss: '120000', lumins: 560, coordinates: [43.0080, -81.2530] },
-                { yyyy: '2024', mmdd: '0316', hhmmss: '133000', lumins: 990, coordinates: [42.9810, -81.2740] },
-                { yyyy: '2024', mmdd: '0316', hhmmss: '145000', lumins: 410, coordinates: [42.9940, -81.2390] },
-                { yyyy: '2024', mmdd: '0316', hhmmss: '153022', lumins: 180, coordinates: [42.9770, -81.2520] },
-            ]));
-            loadAndRender();
-        }
-        function clearData() {
-            localStorage.removeItem(STORAGE_KEY);
-            loadAndRender();
-        }
-
-        setInterval(loadAndRender, 10000);
+        setInterval(loadAndRender, 30000);
     </script>
 </body>
 
