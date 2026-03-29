@@ -15,9 +15,6 @@
             --text:     #e2e8f0;
             --muted:    #64748b;
             --accent:   #38bdf8;
-            --lum-low:  #3b82f6;
-            --lum-mid:  #f59e0b;
-            --lum-high: #ef4444;
         }
         html, body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
 
@@ -38,83 +35,71 @@
 
         .content { padding: 40px 48px 64px; }
 
-        /* Stats row */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 40px; }
         .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; }
         .stat-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px; }
         .stat-value { font-family: 'Space Mono', monospace; font-size: 1.4rem; font-weight: 700; color: #fff; }
 
-        /* Section label */
         .section-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
         .section-title { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
         .section-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 20px; }
 
         /* Timeline */
-        .timeline-wrap {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 24px;
-            margin-bottom: 32px;
-            position: relative;
-        }
-        .timeline-bar {
-            display: flex;
-            height: 56px;
-            border-radius: 6px;
-            overflow: visible;
-            position: relative;
-            gap: 1px;
-        }
+        .timeline-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 32px; }
+        .timeline-bar { display: flex; height: 64px; border-radius: 6px; overflow: visible; gap: 1px; }
         .timeline-segment {
-            flex: 1;
-            border-radius: 2px;
-            cursor: pointer;
-            position: relative;
-            transition: filter 0.15s, transform 0.15s;
-            min-width: 2px;
+            flex: 1; border-radius: 2px; cursor: pointer; position: relative;
+            transition: filter 0.15s, transform 0.15s; min-width: 2px;
         }
-        .timeline-segment:hover {
-            filter: brightness(1.4);
-            transform: scaleY(1.12);
-            z-index: 10;
-        }
+        .timeline-segment:hover { filter: brightness(1.5); transform: scaleY(1.15); z-index: 10; }
+        .timeline-segment.selected { outline: 2px solid #fff; outline-offset: 1px; filter: brightness(1.3); z-index: 11; }
 
-        /* Tooltip */
+        /* Gradient legend */
+        .gradient-legend { margin-top: 12px; }
+        .gradient-bar { height: 8px; border-radius: 4px; background: linear-gradient(to right, #1e40af, #0ea5e9, #22c55e, #f59e0b, #ef4444); }
+        .gradient-labels { display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--muted); font-family: 'Space Mono', monospace; margin-top: 4px; }
+
+        .time-axis { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.68rem; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+        /* Hover tooltip */
         .tooltip {
-            position: fixed;
-            background: #0e1320;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px 16px;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            line-height: 1.9;
-            pointer-events: none;
-            z-index: 9999;
-            display: none;
-            min-width: 180px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            position: fixed; background: #0b1220; border: 1px solid var(--border);
+            border-radius: 8px; padding: 10px 14px; font-family: 'Space Mono', monospace;
+            font-size: 0.73rem; line-height: 1.8; pointer-events: none; z-index: 9999;
+            display: none; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.7);
         }
         .tooltip.visible { display: block; }
-        .tooltip-time { color: var(--accent); font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+        .tooltip-time { color: var(--accent); font-weight: 700; margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
         .tooltip-row { display: flex; justify-content: space-between; gap: 16px; }
         .tooltip-label { color: var(--muted); }
         .tooltip-val   { color: var(--text); }
-        .tooltip-divider { border: none; border-top: 1px solid var(--border); margin: 5px 0; }
-        .tooltip-band-row { display: flex; justify-content: space-between; gap: 12px; }
-        .tooltip-band-label { color: var(--muted); font-size: 0.7rem; }
-        .tooltip-band-val   { color: var(--accent); font-size: 0.7rem; }
+        .tooltip-hint  { color: var(--muted); font-size: 0.65rem; margin-top: 6px; border-top: 1px solid var(--border); padding-top: 5px; }
 
-        /* Time axis */
-        .time-axis { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.68rem; color: var(--muted); font-family: 'Space Mono', monospace; }
+        /* Modal overlay */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+            z-index: 10000; display: none; align-items: center; justify-content: center;
+        }
+        .modal-overlay.visible { display: flex; }
+        .modal {
+            background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px;
+            padding: 28px 32px; width: 520px; max-width: 95vw;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.8);
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .modal-title { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; color: #fff; }
+        .modal-sub { font-size: 0.75rem; color: var(--muted); margin-top: 3px; }
+        .modal-close { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 5px; padding: 4px 10px; font-size: 0.75rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: color 0.2s; }
+        .modal-close:hover { color: var(--text); }
 
-        /* Legend */
-        .timeline-legend { display: flex; gap: 20px; margin-top: 16px; flex-wrap: wrap; }
-        .legend-item { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; color: #94a3b8; }
-        .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+        /* Bar chart inside modal */
+        .bar-chart { display: flex; flex-direction: column; gap: 8px; }
+        .bar-row { display: flex; align-items: center; gap: 10px; }
+        .bar-name { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--muted); width: 36px; flex-shrink: 0; text-align: right; }
+        .bar-track { flex: 1; height: 22px; background: var(--bg-card); border-radius: 4px; overflow: hidden; position: relative; }
+        .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+        .bar-value { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--text); width: 44px; flex-shrink: 0; text-align: right; }
 
-        /* Loading / error */
         .state-msg { text-align: center; padding: 60px 0; font-family: 'Space Mono', monospace; color: var(--muted); font-size: 0.85rem; }
 
         footer { background: var(--bg-panel); border-top: 1px solid var(--border); padding: 28px 48px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
@@ -152,26 +137,38 @@
     </section>
 
     <div class="content">
-        <div class="stats-grid" id="stats-grid">
+        <div class="stats-grid">
             <div class="stat-card"><div class="stat-label">Total Readings</div><div class="stat-value" id="s-count">—</div></div>
             <div class="stat-card"><div class="stat-label">Duration</div><div class="stat-value" id="s-duration">—</div></div>
             <div class="stat-card"><div class="stat-label">Avg Clear</div><div class="stat-value" id="s-avg">—</div></div>
             <div class="stat-card"><div class="stat-label">Peak Clear</div><div class="stat-value" id="s-peak">—</div></div>
             <div class="stat-card"><div class="stat-label">Min Clear</div><div class="stat-value" id="s-min">—</div></div>
         </div>
-
         <div id="main-content">
             <div class="state-msg" id="state-msg">Loading session data...</div>
         </div>
     </div>
 
-    <!-- Floating tooltip -->
+    <!-- Hover tooltip -->
     <div class="tooltip" id="tooltip">
         <div class="tooltip-time" id="tt-time"></div>
         <div class="tooltip-row"><span class="tooltip-label">Clear</span><span class="tooltip-val" id="tt-clear"></span></div>
         <div class="tooltip-row"><span class="tooltip-label">NIR</span><span class="tooltip-val" id="tt-nir"></span></div>
-        <hr class="tooltip-divider">
-        <div id="tt-bands"></div>
+        <div class="tooltip-hint">Click for full spectral breakdown</div>
+    </div>
+
+    <!-- Click modal -->
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <div class="modal-title" id="modal-title">Reading at —</div>
+                    <div class="modal-sub">All channels — relative scale within this reading</div>
+                </div>
+                <button class="modal-close" onclick="closeModalBtn()">✕ Close</button>
+            </div>
+            <div class="bar-chart" id="modal-chart"></div>
+        </div>
     </div>
 
     <footer>
@@ -184,15 +181,38 @@
     </footer>
 
     <script>
-    const BAND_NAMES = ['F1','F2','F3','F4','F5','F6','F7','F8'];
+    const ALL_CHANNELS = ['F1','F2','F3','F4','F5','F6','F7','F8','NIR','Clear'];
 
-    function clearColour(val) {
-        if (val < 300)  return '#3b82f6';
-        if (val <= 700) return '#f59e0b';
-        return '#ef4444';
+    // Channel colours — spectral order violet → red → NIR → broad
+    const CHANNEL_COLOURS = {
+        F1: '#8b5cf6', F2: '#6366f1', F3: '#3b82f6',
+        F4: '#06b6d4', F5: '#22c55e', F6: '#84cc16',
+        F7: '#f59e0b', F8: '#ef4444',
+        NIR: '#be185d', Clear: '#e2e8f0'
+    };
+
+    // ── Relative colour: maps 0–1 to blue→cyan→green→yellow→red ──
+    function relativeColour(t) {
+        // t = 0 (min/cool) → 1 (max/hot)
+        const stops = [
+            [0.00, [30,  64, 175]],   // dark blue
+            [0.25, [14, 165, 233]],   // sky blue
+            [0.50, [34, 197,  94]],   // green
+            [0.75, [245,158, 11]],    // amber
+            [1.00, [239, 68, 68]],    // red
+        ];
+        let i = 0;
+        while (i < stops.length - 2 && t > stops[i+1][0]) i++;
+        const [t0, c0] = stops[i];
+        const [t1, c1] = stops[i+1];
+        const f = (t - t0) / (t1 - t0);
+        const r = Math.round(c0[0] + (c1[0]-c0[0])*f);
+        const g = Math.round(c0[1] + (c1[1]-c0[1])*f);
+        const b = Math.round(c0[2] + (c1[2]-c0[2])*f);
+        return `rgb(${r},${g},${b})`;
     }
 
-    // ── Get session ID from URL param ──────────────────────────────
+    // ── Load session ──────────────────────────────────────────────
     const params    = new URLSearchParams(window.location.search);
     const sessionId = params.get('session');
 
@@ -204,12 +224,10 @@
     }
 
     async function loadSession(id) {
-        const url = `readings/${id}.json?t=` + Date.now();
         try {
-            const res = await fetch(url);
+            const res = await fetch(`readings/${id}.json?t=` + Date.now());
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const data = await res.json();
-            renderSession(data);
+            renderSession(await res.json());
         } catch(e) {
             document.getElementById('state-msg').textContent = `Could not load ${id}.json — ${e.message}`;
         }
@@ -217,43 +235,38 @@
 
     function renderSession(data) {
         const readings = data.readings;
-        if (!readings || !readings.length) {
-            document.getElementById('state-msg').textContent = 'No readings found in this session file.';
-            return;
-        }
+        if (!readings?.length) { document.getElementById('state-msg').textContent = 'No readings in this file.'; return; }
 
-        // ── Hero ──
+        // Hero
         document.getElementById('hero-title').innerHTML =
             `${data.id.replace('_',' ').toUpperCase()} <em>— ${data.date}</em>`;
         document.getElementById('hero-meta').textContent =
             `${readings[0].time} – ${readings[readings.length-1].time}  ·  ${readings.length} readings  ·  ${data.coordinates.join(', ')}`;
 
-        // ── Stats ──
-        const clears = readings.map(r => r.Clear);
-        const avg    = Math.round(clears.reduce((a,b) => a+b, 0) / clears.length);
-        const peak   = Math.max(...clears);
-        const min    = Math.min(...clears);
-
-        // Duration
-        const t0 = readings[0].time.split(':').map(Number);
-        const t1 = readings[readings.length-1].time.split(':').map(Number);
-        const secs = (t1[0]-t0[0])*3600 + (t1[1]-t0[1])*60 + (t1[2]-t0[2]);
-        const durStr = secs >= 60 ? `${Math.floor(secs/60)}m ${secs%60}s` : `${secs}s`;
+        // Stats
+        const clears  = readings.map(r => r.Clear);
+        const minC    = Math.min(...clears);
+        const maxC    = Math.max(...clears);
+        const avgC    = Math.round(clears.reduce((a,b)=>a+b,0)/clears.length);
+        const t0parts = readings[0].time.split(':').map(Number);
+        const t1parts = readings[readings.length-1].time.split(':').map(Number);
+        const secs    = (t1parts[0]-t0parts[0])*3600+(t1parts[1]-t0parts[1])*60+(t1parts[2]-t0parts[2]);
+        const durStr  = secs >= 60 ? `${Math.floor(secs/60)}m ${secs%60}s` : `${secs}s`;
 
         document.getElementById('s-count').textContent    = readings.length;
         document.getElementById('s-duration').textContent = durStr;
-        document.getElementById('s-avg').textContent      = avg;
-        document.getElementById('s-peak').textContent     = peak;
-        document.getElementById('s-min').textContent      = min;
+        document.getElementById('s-avg').textContent      = avgC;
+        document.getElementById('s-peak').textContent     = maxC;
+        document.getElementById('s-min').textContent      = minC;
 
-        // ── Timeline ──
         document.getElementById('state-msg').style.display = 'none';
 
+        // Build timeline
         const mainEl = document.getElementById('main-content');
         mainEl.innerHTML = `
             <p class="section-label">Timeline</p>
-            <p class="section-title">Spectral readings over time</p>
-            <p class="section-sub">Colour indicates Clear channel intensity. Hover any segment for full spectral breakdown.</p>
+            <p class="section-title">Clear channel intensity over time</p>
+            <p class="section-sub">Colour is relative to this session's own min (${minC}) and max (${maxC}). Hover to preview, click for full spectral chart.</p>
             <div class="timeline-wrap">
                 <div class="timeline-bar" id="timeline-bar"></div>
                 <div class="time-axis">
@@ -263,65 +276,90 @@
                     <span>${readings[Math.floor(readings.length*3/4)].time}</span>
                     <span>${readings[readings.length-1].time}</span>
                 </div>
-                <div class="timeline-legend">
-                    <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Clear &lt; 300</div>
-                    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Clear 300–700</div>
-                    <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Clear &gt; 700</div>
+                <div class="gradient-legend">
+                    <div class="gradient-bar"></div>
+                    <div class="gradient-labels"><span>Min (${minC})</span><span>Max (${maxC})</span></div>
                 </div>
             </div>`;
 
         const bar     = document.getElementById('timeline-bar');
         const tooltip = document.getElementById('tooltip');
+        const range   = maxC - minC || 1;
 
-        // Bucket readings if there are too many for smooth rendering
-        const MAX_SEGMENTS = 400;
-        let displayReadings = readings;
-        if (readings.length > MAX_SEGMENTS) {
-            const step = Math.ceil(readings.length / MAX_SEGMENTS);
-            displayReadings = readings.filter((_, i) => i % step === 0);
-        }
+        // Bucket if needed
+        const MAX_SEG = 500;
+        const display = readings.length > MAX_SEG
+            ? readings.filter((_,i) => i % Math.ceil(readings.length/MAX_SEG) === 0)
+            : readings;
 
-        displayReadings.forEach(r => {
+        display.forEach(r => {
+            const t   = (r.Clear - minC) / range;  // 0–1 relative
             const seg = document.createElement('div');
             seg.className = 'timeline-segment';
-            seg.style.background = clearColour(r.Clear);
+            seg.style.background = relativeColour(t);
 
+            // Hover — show tooltip
             seg.addEventListener('mousemove', e => {
-                // Sort bands highest to lowest
-                const bands = BAND_NAMES.map(n => ({ name: n, val: r[n] }))
-                                         .sort((a, b) => b.val - a.val);
-
                 document.getElementById('tt-time').textContent  = r.time;
                 document.getElementById('tt-clear').textContent = r.Clear;
                 document.getElementById('tt-nir').textContent   = r.NIR;
-                document.getElementById('tt-bands').innerHTML   = bands.map(b =>
-                    `<div class="tooltip-band-row">
-                        <span class="tooltip-band-label">${b.name}</span>
-                        <span class="tooltip-band-val">${b.val}</span>
-                     </div>`
-                ).join('');
-
-                // Position tooltip near cursor, keep within viewport
-                const tw = 200, th = 220;
-                let x = e.clientX + 14;
-                let y = e.clientY + 14;
+                const tw = 180, th = 110;
+                let x = e.clientX + 14, y = e.clientY + 14;
                 if (x + tw > window.innerWidth)  x = e.clientX - tw - 14;
                 if (y + th > window.innerHeight) y = e.clientY - th - 14;
-
-                tooltip.style.left    = x + 'px';
-                tooltip.style.top     = y + 'px';
+                tooltip.style.left = x + 'px';
+                tooltip.style.top  = y + 'px';
                 tooltip.classList.add('visible');
             });
-
             seg.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
+
+            // Click — open bar chart modal
+            seg.addEventListener('click', () => {
+                tooltip.classList.remove('visible');
+                openModal(r);
+            });
+
             bar.appendChild(seg);
         });
     }
 
-    // Hide tooltip when mouse leaves window
-    document.addEventListener('mouseleave', () => {
-        document.getElementById('tooltip').classList.remove('visible');
+    // ── Modal ─────────────────────────────────────────────────────
+    function openModal(r) {
+        document.getElementById('modal-title').textContent = `Reading at ${r.time}`;
+
+        // Find max across all channels for relative scale within this reading
+        const vals   = ALL_CHANNELS.map(ch => ({ name: ch, val: r[ch] ?? 0 }));
+        const maxVal = Math.max(...vals.map(v => v.val)) || 1;
+
+        const chart = document.getElementById('modal-chart');
+        chart.innerHTML = vals.map(ch => {
+            const pct    = ((ch.val / maxVal) * 100).toFixed(1);
+            const colour = CHANNEL_COLOURS[ch.name];
+            return `<div class="bar-row">
+                <span class="bar-name">${ch.name}</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="width:${pct}%;background:${colour};"></div>
+                </div>
+                <span class="bar-value">${ch.val}</span>
+            </div>`;
+        }).join('');
+
+        document.getElementById('modal-overlay').classList.add('visible');
+    }
+
+    function closeModal(e) {
+        if (e.target === document.getElementById('modal-overlay'))
+            document.getElementById('modal-overlay').classList.remove('visible');
+    }
+    function closeModalBtn() {
+        document.getElementById('modal-overlay').classList.remove('visible');
+    }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') document.getElementById('modal-overlay').classList.remove('visible');
     });
+    document.addEventListener('mouseleave', () =>
+        document.getElementById('tooltip').classList.remove('visible'));
     </script>
 </body>
 </html>

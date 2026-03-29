@@ -17,12 +17,9 @@
             --text:     #e2e8f0;
             --muted:    #64748b;
             --accent:   #38bdf8;
-            --lum-low:  #3b82f6;
-            --lum-mid:  #f59e0b;
-            --lum-high: #ef4444;
         }
         html, body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
-
+ 
         header { background: var(--bg-panel); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 70px; position: sticky; top: 0; z-index: 1000; }
         .site-title { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: 0.5px; line-height: 1.3; }
         .site-title span { color: var(--accent); display: block; font-size: 0.7rem; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; }
@@ -30,48 +27,43 @@
         nav a { text-decoration: none; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; padding: 8px 16px; border-radius: 6px; border: 1px solid transparent; transition: all 0.2s; display: flex; align-items: center; gap: 7px; }
         nav a:hover, nav a.active { color: var(--text); border-color: var(--border); background: var(--bg-card); text-decoration: none; }
         nav a svg { width: 15px; height: 15px; flex-shrink: 0; }
-
+ 
         .hero { padding: 72px 48px 56px; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
         .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(56,189,248,0.07) 0%, transparent 70%); pointer-events: none; }
         .hero-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
         .hero h1 { font-family: 'Space Mono', monospace; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; line-height: 1.2; color: #fff; margin-bottom: 20px; }
         .hero h1 em { font-style: normal; color: var(--accent); }
         .hero-desc { font-size: 1rem; color: var(--muted); max-width: 620px; line-height: 1.8; }
-        .hero-pills { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
-        .pill { background: var(--bg-card); border: 1px solid var(--border); border-radius: 100px; padding: 6px 16px; font-size: 0.78rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-        .pill-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-
+        .hero-pills { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; align-items: center; }
+        .pill { background: var(--bg-card); border: 1px solid var(--border); border-radius: 100px; padding: 6px 16px; font-size: 0.78rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+        .gradient-pill { height: 10px; width: 80px; border-radius: 5px; background: linear-gradient(to right, #1e40af, #0ea5e9, #22c55e, #f59e0b, #ef4444); flex-shrink: 0; }
+ 
         .map-section { padding: 48px 48px 64px; }
         .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
         .section-header h2 { font-family: 'Space Mono', monospace; font-size: 1.1rem; font-weight: 700; color: #fff; }
         .section-header p { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
-        .legend { display: flex; gap: 20px; flex-wrap: wrap; }
-        .legend-item { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; color: #94a3b8; }
-        .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-
+ 
         .demo-bar { background: var(--bg-card); border: 1px dashed #1e3a5f; border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .demo-bar p { font-size: 0.78rem; color: var(--muted); flex: 1; }
         .demo-bar p strong { color: #e2e8f0; }
         .btn-link { background: var(--accent); color: #07090f; border: none; border-radius: 5px; padding: 6px 14px; font-size: 0.78rem; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: opacity 0.2s; text-decoration: none; display: inline-block; }
         .btn-link:hover { opacity: 0.85; text-decoration: none; color: #07090f; }
-
+ 
         #sensor-map { width: 100%; height: 540px; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.6); }
-
+ 
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-top: 20px; }
         .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; }
         .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px; }
         .stat-value { font-family: 'Space Mono', monospace; font-size: 1.6rem; font-weight: 700; color: #fff; }
         .stat-value.small { font-size: 0.9rem; padding-top: 6px; line-height: 1.4; }
-
-        /* Popup */
-        .sensor-popup { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; line-height: 1.8; min-width: 200px; }
+ 
+        .sensor-popup { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; line-height: 1.8; min-width: 210px; }
         .popup-title { font-family: 'Space Mono', monospace; font-size: 0.82rem; font-weight: 700; color: #111; margin-bottom: 8px; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
-        .popup-row { display: flex; justify-content: space-between; gap: 16px; }
+        .popup-row { display: flex; justify-content: space-between; gap: 16px; color: #333; }
         .popup-row span { color: #888; font-size: 0.78rem; }
-        .popup-detail-btn { display: block; margin-top: 10px; background: #1e2d45; color: #38bdf8; border: 1px solid #1e3a5f; border-radius: 5px; padding: 5px 12px; font-size: 0.75rem; font-family: 'Space Mono', monospace; text-align: center; text-decoration: none; cursor: pointer; }
+        .popup-detail-btn { display: block; margin-top: 10px; background: #1e2d45; color: #38bdf8; border: 1px solid #1e3a5f; border-radius: 5px; padding: 5px 12px; font-size: 0.75rem; font-family: 'Space Mono', monospace; text-align: center; text-decoration: none; }
         .popup-detail-btn:hover { background: #253d5a; }
-        .lum-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; color: #fff; margin-top: 6px; }
-
+ 
         footer { background: var(--bg-panel); border-top: 1px solid var(--border); padding: 28px 48px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
         footer .foot-left { font-size: 0.8rem; color: var(--muted); line-height: 1.8; }
         footer .foot-left strong { font-family: 'Space Mono', monospace; color: var(--text); display: block; margin-bottom: 4px; }
@@ -81,7 +73,7 @@
     </style>
 </head>
 <body>
-
+ 
     <header>
         <div class="site-title">1050 Lab 25<span>Light Pollution Monitor</span></div>
         <nav>
@@ -99,58 +91,42 @@
             </a>
         </nav>
     </header>
-
+ 
     <section class="hero">
         <p class="hero-eyebrow">1050 · Lab 25 · Field Study</p>
         <h1>Mapping <em>Light Pollution</em><br>Across the City</h1>
         <p class="hero-desc"><!-- Add your project description here --></p>
         <div class="hero-pills">
-            <div class="pill"><div class="pill-dot" style="background:var(--lum-low)"></div> Avg Clear &lt; 300</div>
-            <div class="pill"><div class="pill-dot" style="background:var(--lum-mid)"></div> Avg Clear 300–700</div>
-            <div class="pill"><div class="pill-dot" style="background:var(--lum-high)"></div> Avg Clear &gt; 700</div>
+            <div class="pill">
+                <div class="gradient-pill"></div>
+                Pin colour: low → high avg Clear (relative across all sessions)
+            </div>
         </div>
     </section>
-
+ 
     <section class="map-section">
         <div class="section-header">
             <div>
                 <h2>Recording Sessions</h2>
-                <p>Each pin is one recording session. Click for details and spectral timeline.</p>
-            </div>
-            <div class="legend">
-                <div class="legend-item"><div class="legend-dot" style="background:var(--lum-low)"></div>Low avg</div>
-                <div class="legend-item"><div class="legend-dot" style="background:var(--lum-mid)"></div>Mid avg</div>
-                <div class="legend-item"><div class="legend-dot" style="background:var(--lum-high)"></div>High avg</div>
+                <p>Each pin is one recording session. Colour is relative to all sessions. Click for details.</p>
             </div>
         </div>
-
+ 
         <div class="demo-bar">
             <p>Upload a new CSV session via the <strong>Submit</strong> page.</p>
             <a href="SubmitReading.html" class="btn-link">Upload Session</a>
         </div>
-
+ 
         <div id="sensor-map"></div>
-
+ 
         <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Total Sessions</div>
-                <div class="stat-value" id="stat-sessions">—</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Total Readings</div>
-                <div class="stat-value" id="stat-readings">—</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Overall Avg Clear</div>
-                <div class="stat-value" id="stat-avg">—</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Latest Session</div>
-                <div class="stat-value small" id="stat-latest">—</div>
-            </div>
+            <div class="stat-card"><div class="stat-label">Total Sessions</div><div class="stat-value" id="stat-sessions">—</div></div>
+            <div class="stat-card"><div class="stat-label">Total Readings</div><div class="stat-value" id="stat-readings">—</div></div>
+            <div class="stat-card"><div class="stat-label">Overall Avg Clear</div><div class="stat-value" id="stat-avg">—</div></div>
+            <div class="stat-card"><div class="stat-label">Latest Session</div><div class="stat-value small" id="stat-latest">—</div></div>
         </div>
     </section>
-
+ 
     <footer>
         <div class="foot-left"><strong>1050 Lab 25 – Light Pollution</strong>London, Ontario</div>
         <div class="foot-links">
@@ -161,85 +137,93 @@
             <a href="https://www.youtube.com/"><svg viewBox="0 0 24 24" fill="currentColor" width="14"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>YouTube</a>
         </div>
     </footer>
-
+ 
     <script>
-    function clearColour(val) {
-        if (val < 300)  return '#3b82f6';
-        if (val <= 700) return '#f59e0b';
-        return '#ef4444';
+    // ── Smooth gradient: 0=min(blue) → 1=max(red) ─────────────────
+    function relativeColour(t) {
+        const stops = [
+            [0.00, [30,  64, 175]],
+            [0.25, [14, 165, 233]],
+            [0.50, [34, 197,  94]],
+            [0.75, [245,158,  11]],
+            [1.00, [239,  68,  68]],
+        ];
+        let i = 0;
+        while (i < stops.length - 2 && t > stops[i+1][0]) i++;
+        const [t0, c0] = stops[i], [t1, c1] = stops[i+1];
+        const f = (t - t0) / (t1 - t0);
+        return `rgb(${Math.round(c0[0]+(c1[0]-c0[0])*f)},${Math.round(c0[1]+(c1[1]-c0[1])*f)},${Math.round(c0[2]+(c1[2]-c0[2])*f)})`;
     }
-    function clearLabel(val) {
-        if (val < 300)  return 'Low';
-        if (val <= 700) return 'Mid';
-        return 'High';
-    }
-    function makeIcon(avg) {
-        const c = clearColour(avg);
+ 
+    function makeIcon(colour) {
         return L.divIcon({
             html: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22">
-                     <circle cx="11" cy="11" r="9" fill="${c}" stroke="#fff" stroke-width="2" opacity="0.93"/>
+                     <circle cx="11" cy="11" r="9" fill="${colour}" stroke="#fff" stroke-width="2" opacity="0.95"/>
                    </svg>`,
             className: '', iconSize: [22,22], iconAnchor: [11,11], popupAnchor: [0,-14]
         });
     }
-
+ 
     const map = L.map('sensor-map').setView([42.9849, -81.2453], 12);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors', maxZoom: 19
     }).addTo(map);
-
+ 
     async function loadSessions() {
         map.eachLayer(l => { if (l instanceof L.Marker) map.removeLayer(l); });
-
         let sessions = [];
         try {
             const res = await fetch('sessions.json?t=' + Date.now());
             if (res.ok) sessions = await res.json();
         } catch(e) { console.warn('Could not load sessions.json', e); }
-
+ 
         if (!sessions.length) {
             ['stat-sessions','stat-readings','stat-avg','stat-latest']
                 .forEach(id => document.getElementById(id).textContent = '—');
             return;
         }
-
+ 
+        // Compute global min/max avgClear for relative colour scale
+        const allAvgs = sessions.map(s => s.avgClear);
+        const globalMin = Math.min(...allAvgs);
+        const globalMax = Math.max(...allAvgs);
+        const globalRange = globalMax - globalMin || 1;
+ 
         const bounds = [];
         let totalReadings = 0, totalClear = 0;
-
+ 
         sessions.forEach(s => {
             const [lat, lng] = s.coordinates;
-            const colour = clearColour(s.avgClear);
-            const label  = clearLabel(s.avgClear);
-
+            const t      = (s.avgClear - globalMin) / globalRange;
+            const colour = relativeColour(t);
+ 
             const popup = `<div class="sensor-popup">
-                <div class="popup-title">${s.id.replace('_', ' ').toUpperCase()}</div>
+                <div class="popup-title">${s.id.replace('_',' ').toUpperCase()}</div>
                 <div class="popup-row"><span>Date</span> ${s.date}</div>
                 <div class="popup-row"><span>Time</span> ${s.timeStart} – ${s.timeEnd}</div>
                 <div class="popup-row"><span>Avg Clear</span> ${s.avgClear}</div>
                 <div class="popup-row"><span>Peak Clear</span> ${s.peakClear}</div>
                 <div class="popup-row"><span>Readings</span> ${s.rowCount}</div>
-                <div><span class="lum-badge" style="background:${colour}">${label}</span></div>
                 <a class="popup-detail-btn" href="SessionDetail.html?session=${s.id}">View Full Details →</a>
             </div>`;
-
-            L.marker([lat, lng], { icon: makeIcon(s.avgClear) })
-             .addTo(map)
-             .bindPopup(popup);
-
+ 
+            L.marker([lat, lng], { icon: makeIcon(colour) })
+             .addTo(map).bindPopup(popup);
+ 
             bounds.push([lat, lng]);
             totalReadings += s.rowCount;
             totalClear    += s.avgClear;
         });
-
+ 
         if (bounds.length > 1) map.fitBounds(bounds, { padding: [40,40] });
-
+ 
         const latest = sessions[sessions.length - 1];
         document.getElementById('stat-sessions').textContent = sessions.length;
         document.getElementById('stat-readings').textContent = totalReadings.toLocaleString();
         document.getElementById('stat-avg').textContent      = Math.round(totalClear / sessions.length);
         document.getElementById('stat-latest').textContent   = `${latest.date} ${latest.timeStart}`;
     }
-
+ 
     loadSessions();
     setInterval(loadSessions, 30000);
     </script>
