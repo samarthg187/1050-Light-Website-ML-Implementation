@@ -8,6 +8,23 @@
     "avgClear": 312,
     "peakClear": 480,
     "rowCount": 450,
-    "coordinates": [42.9837, -81.2497]
+    "coordinates": [
+      42.9837,
+      -81.2497
+    ]
+  },
+  {
+    "id": "session_002",
+    "file": "readings/session_002.json",
+    "date": "2024/03/16",
+    "timeStart": "19:00:00",
+    "timeEnd": "19:03:10",
+    "avgClear": 476,
+    "peakClear": 988,
+    "rowCount": 96,
+    "coordinates": [
+      42.9849,
+      -81.2453
+    ]
   }
 ]
