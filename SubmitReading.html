@@ -51,35 +51,104 @@
 
         .coord-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-        /* File drop zone */
-        .drop-zone {
-            border: 2px dashed var(--border);
-            border-radius: 8px;
-            padding: 36px 24px;
-            text-align: center;
-            cursor: pointer;
-            transition: border-color 0.2s, background 0.2s;
-            position: relative;
-        }
-        .drop-zone:hover, .drop-zone.dragover {
-            border-color: var(--accent);
-            background: rgba(56,189,248,0.04);
-        }
-        .drop-zone input[type="file"] {
-            position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-        }
+        .drop-zone { border: 2px dashed var(--border); border-radius: 8px; padding: 36px 24px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; }
+        .drop-zone:hover, .drop-zone.dragover { border-color: var(--accent); background: rgba(56,189,248,0.04); }
+        .drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
         .drop-zone-icon { font-size: 2rem; margin-bottom: 10px; }
         .drop-zone-text { font-family: 'Space Mono', monospace; font-size: 0.82rem; color: var(--muted); }
         .drop-zone-text strong { color: var(--accent); }
         .drop-zone.has-file { border-color: var(--success); background: rgba(34,197,94,0.04); }
         .drop-zone.has-file .drop-zone-text { color: var(--success); }
 
-        /* CSV preview */
         .csv-preview { display: none; margin-top: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; font-family: 'Space Mono', monospace; font-size: 0.75rem; line-height: 1.9; }
         .csv-preview.visible { display: block; }
         .preview-row { display: flex; gap: 12px; }
         .preview-label { color: var(--muted); min-width: 120px; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .preview-val { color: var(--accent); }
+
+        /* ── AI Analysis Card ──────────────────────────────────────── */
+        .ai-card {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 28px;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        .ai-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #a78bfa, #38bdf8);
+            background-size: 200% 100%;
+            animation: shimmer 2.5s linear infinite;
+        }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .ai-card.visible { display: block; }
+
+        .ai-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+        .ai-icon { width: 32px; height: 32px; background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.2)); border: 1px solid rgba(56,189,248,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .ai-icon svg { width: 16px; height: 16px; color: var(--accent); }
+        .ai-title-group { flex: 1; }
+        .ai-title { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; color: #fff; }
+        .ai-subtitle { font-size: 0.73rem; color: var(--muted); margin-top: 2px; }
+        .ai-badge { font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 3px 10px; border-radius: 100px; border: 1px solid; }
+        .ai-badge.analyzing { color: var(--accent); border-color: rgba(56,189,248,0.3); background: rgba(56,189,248,0.07); animation: pulse-badge 1.5s ease-in-out infinite; }
+        .ai-badge.done { color: var(--success); border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.07); }
+        .ai-badge.error { color: var(--lum-high); border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.07); }
+        @keyframes pulse-badge { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* Skeleton loader */
+        .ai-skeleton { display: flex; flex-direction: column; gap: 10px; }
+        .skeleton-line { height: 12px; border-radius: 6px; background: linear-gradient(90deg, #1e2d45 25%, #253a55 50%, #1e2d45 75%); background-size: 200% 100%; animation: skeleton-wave 1.5s linear infinite; }
+        .skeleton-line.short { width: 40%; }
+        .skeleton-line.medium { width: 70%; }
+        @keyframes skeleton-wave { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* Result layout */
+        .ai-result { display: none; }
+        .ai-result.visible { display: block; }
+
+        /* Classification pill */
+        .classification-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+        .class-pill {
+            display: flex; align-items: center; gap: 8px;
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: 8px; padding: 10px 16px;
+        }
+        .class-pill-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .class-pill-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-family: 'Space Mono', monospace; }
+        .class-pill-value { font-family: 'Space Mono', monospace; font-size: 0.82rem; font-weight: 700; color: #fff; margin-top: 2px; }
+
+        /* Pollution level meter */
+        .pollution-meter { margin-bottom: 20px; }
+        .meter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .meter-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; }
+        .meter-value { font-family: 'Space Mono', monospace; font-size: 0.82rem; font-weight: 700; }
+        .meter-track { height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+        .meter-fill { height: 100%; border-radius: 4px; transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+        /* Spectral breakdown bars */
+        .spectral-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 20px; }
+        .spec-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .spec-bar-outer { width: 100%; height: 60px; background: var(--bg); border-radius: 4px; border: 1px solid var(--border); display: flex; align-items: flex-end; overflow: hidden; }
+        .spec-bar-inner { width: 100%; border-radius: 3px 3px 0 0; transition: height 1s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .spec-bar-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted); }
+        .spec-bar-val { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text); }
+
+        /* Interpretation text */
+        .ai-interpretation { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; font-size: 0.84rem; line-height: 1.85; color: var(--muted); }
+        .ai-interpretation strong { color: var(--text); }
+
+        /* Findings list */
+        .findings-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+        .findings-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+        .finding-bullet { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 7px; }
+        .finding-bullet.warn { background: #f59e0b; }
+        .finding-bullet.alert { background: var(--lum-high); }
 
         /* Submit */
         .submit-btn { width: 100%; background: var(--accent); color: #07090f; border: none; border-radius: 6px; padding: 12px; font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: opacity 0.2s; }
@@ -100,7 +169,6 @@
         .config-warn { background: #1a0505; border: 1px solid var(--lum-high); border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; font-family: 'Space Mono', monospace; font-size: 0.78rem; color: #fca5a5; display: none; }
         .config-warn strong { color: var(--lum-high); display: block; margin-bottom: 6px; }
 
-        /* Format hint */
         .format-hint { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.8; }
         .format-hint strong { color: var(--text); display: block; margin-bottom: 6px; font-size: 0.78rem; }
         .format-hint code { color: var(--accent); }
@@ -111,6 +179,9 @@
         footer .foot-links { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
         footer .foot-links a { text-decoration: none; color: var(--muted); font-size: 0.82rem; display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
         footer .foot-links a:hover { color: var(--accent); text-decoration: none; }
+
+        /* Divider */
+        .ai-section-label { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -174,6 +245,64 @@
             </div>
         </div>
 
+        <!-- AI ANALYSIS CARD -->
+        <div class="ai-card" id="ai-card">
+            <div class="ai-header">
+                <div class="ai-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                        <path d="M12 8v4M12 16h.01"/>
+                        <circle cx="12" cy="12" r="3" fill="currentColor" opacity="0.3"/>
+                    </svg>
+                </div>
+                <div class="ai-title-group">
+                    <div class="ai-title">Spectral Analysis</div>
+                    <div class="ai-subtitle">AI-powered light source &amp; pollution classification</div>
+                </div>
+                <div class="ai-badge analyzing" id="ai-badge">Analyzing…</div>
+            </div>
+
+            <!-- Skeleton while loading -->
+            <div class="ai-skeleton" id="ai-skeleton">
+                <div class="skeleton-line medium"></div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line" style="width:85%"></div>
+                <div class="skeleton-line medium"></div>
+                <div class="skeleton-line short"></div>
+            </div>
+
+            <!-- Result (hidden until done) -->
+            <div class="ai-result" id="ai-result">
+
+                <!-- Classification pills -->
+                <div class="ai-section-label">Classification</div>
+                <div class="classification-row" id="class-row"></div>
+
+                <!-- Pollution meter -->
+                <div class="pollution-meter">
+                    <div class="meter-header">
+                        <span class="meter-label">Light Pollution Index</span>
+                        <span class="meter-value" id="meter-val-text"></span>
+                    </div>
+                    <div class="meter-track">
+                        <div class="meter-fill" id="meter-fill" style="width:0%"></div>
+                    </div>
+                </div>
+
+                <!-- Spectral breakdown mini bars -->
+                <div class="ai-section-label">Avg spectral signature</div>
+                <div class="spectral-grid" id="spectral-grid"></div>
+
+                <!-- Interpretation -->
+                <div class="ai-section-label" style="margin-top:16px;">Interpretation</div>
+                <div class="ai-interpretation" id="ai-interp"></div>
+
+                <!-- Key findings -->
+                <ul class="findings-list" id="findings-list"></ul>
+
+            </div>
+        </div>
+
         <!-- LOCATION -->
         <div class="form-card">
             <p class="section-label">Location</p>
@@ -211,10 +340,27 @@
     </footer>
 
     <script>
-    const BAND_NAMES = ['F1','F2','F3','F4','F5','F6','F7','F8'];
+    /* ─────────────────────────────────────────────────────────────
+       CONSTANTS
+    ───────────────────────────────────────────────────────────── */
+    const BAND_NAMES    = ['F1','F2','F3','F4','F5','F6','F7','F8'];
+    const ALL_SPECTRAL  = ['F1','F2','F3','F4','F5','F6','F7','F8','NIR','Clear'];
+
+    // AS7341 approximate centre wavelengths (nm)
+    const BAND_WL = { F1:415, F2:445, F3:480, F4:515, F5:555, F6:590, F7:630, F8:680, NIR:910, Clear:0 };
+
+    // Visual colours matching spectral order
+    const BAND_COLOURS = {
+        F1:'#a78bfa', F2:'#818cf8', F3:'#60a5fa', F4:'#22d3ee',
+        F5:'#4ade80', F6:'#facc15', F7:'#fb923c', F8:'#f87171',
+        NIR:'#f472b6', Clear:'#94a3b8'
+    };
+
     let parsedSession = null;
 
-    // ── Config check ──────────────────────────────────────────────
+    /* ─────────────────────────────────────────────────────────────
+       CONFIG CHECK
+    ───────────────────────────────────────────────────────────── */
     function configReady() {
         if (typeof GITHUB_CONFIG === 'undefined') return false;
         const { owner, repo, token } = GITHUB_CONFIG;
@@ -226,7 +372,9 @@
         if (!configReady()) document.getElementById('config-warn').style.display = 'block';
     });
 
-    // ── Drag and drop styling ────────────────────────────────────
+    /* ─────────────────────────────────────────────────────────────
+       DRAG & DROP
+    ───────────────────────────────────────────────────────────── */
     const dropZone = document.getElementById('drop-zone');
     dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
@@ -237,7 +385,9 @@
         if (file) handleFile(file);
     });
 
-    // ── Parse CSV ────────────────────────────────────────────────
+    /* ─────────────────────────────────────────────────────────────
+       CSV PARSER
+    ───────────────────────────────────────────────────────────── */
     function handleFile(file) {
         if (!file) return;
         const errorEl = document.getElementById('file-error');
@@ -252,9 +402,7 @@
             for (const line of lines) {
                 const parts = line.split(',').map(p => p.trim());
                 if (parts.length !== 12) continue;
-
-                // Skip header row if present
-                if (isNaN(parts[2])) continue;
+                if (isNaN(parts[2])) continue;   // skip header
 
                 const [date, time, f1,f2,f3,f4,f5,f6,f7,f8,nir,clear] = parts;
                 if (!/^\d{4}\/\d{2}\/\d{2}$/.test(date)) continue;
@@ -262,9 +410,9 @@
 
                 readings.push({
                     time,
-                    F1: +f1, F2: +f2, F3: +f3, F4: +f4,
-                    F5: +f5, F6: +f6, F7: +f7, F8: +f8,
-                    NIR: +nir, Clear: +clear
+                    F1:+f1,F2:+f2,F3:+f3,F4:+f4,
+                    F5:+f5,F6:+f6,F7:+f7,F8:+f8,
+                    NIR:+nir, Clear:+clear
                 });
             }
 
@@ -278,33 +426,232 @@
 
             const date     = lines.find(l => /^\d{4}\/\d{2}\/\d{2}/.test(l))?.split(',')[0] || '—';
             const clears   = readings.map(r => r.Clear);
-            const avgClear = Math.round(clears.reduce((a,b) => a+b,0) / clears.length);
+            const avgClear = Math.round(clears.reduce((a,b)=>a+b,0) / clears.length);
             const peak     = Math.max(...clears);
 
             parsedSession = { date, readings, avgClear, peakClear: peak };
 
-            // Update UI
+            // Update drop zone UI
             dropZone.classList.add('has-file');
             dropZone.querySelector('.drop-zone-text').innerHTML = `<strong>${file.name}</strong> loaded`;
 
             document.getElementById('prev-file').textContent  = file.name;
             document.getElementById('prev-rows').textContent  = readings.length;
             document.getElementById('prev-date').textContent  = date;
-            document.getElementById('prev-time').textContent  = `${readings[0].time} – ${readings[readings.length-1].time}`;
+            document.getElementById('prev-time').textContent  =
+                `${readings[0].time} – ${readings[readings.length-1].time}`;
             document.getElementById('prev-avg').textContent   = avgClear;
             document.getElementById('prev-peak').textContent  = peak;
             document.getElementById('csv-preview').classList.add('visible');
+
+            // Trigger AI analysis
+            runAIAnalysis(parsedSession);
         };
         reader.readAsText(file);
     }
 
-    // ── Coord validation ──────────────────────────────────────────
+    /* ─────────────────────────────────────────────────────────────
+       SPECTRAL HELPERS
+    ───────────────────────────────────────────────────────────── */
+    function computeAverages(readings) {
+        const sums = {};
+        ALL_SPECTRAL.forEach(ch => sums[ch] = 0);
+        readings.forEach(r => ALL_SPECTRAL.forEach(ch => sums[ch] += (r[ch] || 0)));
+        const avgs = {};
+        ALL_SPECTRAL.forEach(ch => avgs[ch] = Math.round(sums[ch] / readings.length));
+        return avgs;
+    }
+
+    function computeStats(readings) {
+        const clears = readings.map(r => r.Clear);
+        const min = Math.min(...clears), max = Math.max(...clears);
+        const avg = Math.round(clears.reduce((a,b)=>a+b,0) / clears.length);
+        const variance = clears.reduce((acc,v)=>acc+Math.pow(v-avg,2),0)/clears.length;
+        const stddev = Math.round(Math.sqrt(variance));
+        return { min, max, avg, stddev, count: readings.length };
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       AI ANALYSIS VIA ANTHROPIC API
+    ───────────────────────────────────────────────────────────── */
+    async function runAIAnalysis(session) {
+        const card = document.getElementById('ai-card');
+        const skeleton = document.getElementById('ai-skeleton');
+        const result  = document.getElementById('ai-result');
+        const badge   = document.getElementById('ai-badge');
+
+        // Show card in loading state
+        card.classList.add('visible');
+        skeleton.style.display = 'flex';
+        result.classList.remove('visible');
+        badge.className = 'ai-badge analyzing';
+        badge.textContent = 'Analyzing…';
+
+        const avgs  = computeAverages(session.readings);
+        const stats = computeStats(session.readings);
+
+        // Dominant band analysis for the prompt
+        const bandRatios = BAND_NAMES.map(b => ({ name:b, val:avgs[b] }));
+        const totalVisible = bandRatios.reduce((s,b)=>s+b.val, 0) || 1;
+        const ratioStr = bandRatios
+            .map(b => `${b.name}(${b.val}, ${((b.val/totalVisible)*100).toFixed(1)}%)`)
+            .join(', ');
+
+        const prompt = `You are an expert in light pollution science and spectral radiometry.
+A student has collected outdoor light data using an AS7341 spectral sensor (8 visible bands + NIR + broadband Clear channel).
+
+SESSION STATISTICS:
+- Total readings: ${stats.count} (one every 2 seconds)
+- Date: ${session.date}
+- Clear channel — avg: ${stats.avg}, min: ${stats.min}, max: ${stats.max}, stddev: ${stats.stddev}
+- Average band values (counts): F1/415nm: ${avgs.F1}, F2/445nm: ${avgs.F2}, F3/480nm: ${avgs.F3}, F4/515nm: ${avgs.F4}, F5/555nm: ${avgs.F5}, F6/590nm: ${avgs.F6}, F7/630nm: ${avgs.F7}, F8/680nm: ${avgs.F8}, NIR/910nm: ${avgs.NIR}, Clear: ${avgs.Clear}
+- Band proportions of total visible: ${ratioStr}
+- NIR/Clear ratio: ${(avgs.NIR/avgs.Clear).toFixed(3)}
+- Blue-heavy index (F1+F2+F3 vs F6+F7+F8): ${avgs.F1+avgs.F2+avgs.F3} vs ${avgs.F6+avgs.F7+avgs.F8}
+
+Based on the spectral signature, respond ONLY with a valid JSON object (no markdown, no preamble) with this exact structure:
+{
+  "lightSourceType": "string (e.g. LED streetlight, High-pressure sodium, Natural sky, Mixed urban, Fluorescent, Metal halide, Moonlight, Sunlight, Unknown)",
+  "lightSourceConfidence": number (0-100),
+  "pollutionLevel": "string (one of: Minimal, Low, Moderate, High, Severe)",
+  "pollutionIndex": number (0-100),
+  "pollutionColor": "string (one of: #22c55e, #86efac, #f59e0b, #ef4444, #b91c1c)",
+  "spectralCharacter": "string (2-3 words, e.g. Blue-dominant LED, Warm broadband, Sodium-peak dominant)",
+  "summary": "string (2 sentences — describe what the spectral data indicates about the light source and environment)",
+  "findings": [
+    { "text": "string", "severity": "info|warn|alert" },
+    { "text": "string", "severity": "info|warn|alert" },
+    { "text": "string", "severity": "info|warn|alert" }
+  ]
+}`;
+
+        try {
+            const response = await fetch('https://api.anthropic.com/v1/messages', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: 'claude-sonnet-4-20250514',
+                    max_tokens: 1000,
+                    messages: [{ role: 'user', content: prompt }]
+                })
+            });
+
+            const data = await response.json();
+            const rawText = (data.content || [])
+                .filter(b => b.type === 'text')
+                .map(b => b.text)
+                .join('');
+
+            // Strip possible markdown fences
+            const clean = rawText.replace(/```json|```/g, '').trim();
+            const ai = JSON.parse(clean);
+
+            renderAIResult(ai, avgs, stats);
+
+            badge.className = 'ai-badge done';
+            badge.textContent = 'Complete';
+
+        } catch (err) {
+            console.error('AI analysis error:', err);
+            badge.className = 'ai-badge error';
+            badge.textContent = 'Error';
+            skeleton.style.display = 'none';
+            result.innerHTML = `<p style="color:var(--lum-high);font-family:'Space Mono',monospace;font-size:0.78rem;">
+                Analysis failed: ${err.message}. The file was parsed successfully — you can still submit it.
+            </p>`;
+            result.classList.add('visible');
+        }
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       RENDER AI RESULT
+    ───────────────────────────────────────────────────────────── */
+    function renderAIResult(ai, avgs, stats) {
+        const skeleton = document.getElementById('ai-skeleton');
+        const result   = document.getElementById('ai-result');
+
+        skeleton.style.display = 'none';
+
+        // Classification pills
+        const classRow = document.getElementById('class-row');
+        const pills = [
+            { label:'Source Type',  value: ai.lightSourceType,   dot: '#38bdf8' },
+            { label:'Confidence',   value: ai.lightSourceConfidence + '%', dot: '#818cf8' },
+            { label:'Character',    value: ai.spectralCharacter,  dot: '#a78bfa' },
+        ];
+        classRow.innerHTML = pills.map(p => `
+            <div class="class-pill">
+                <div>
+                    <div class="class-pill-label">${p.label}</div>
+                    <div class="class-pill-value">${p.value}</div>
+                </div>
+            </div>`).join('');
+
+        // Pollution meter
+        const fill = document.getElementById('meter-fill');
+        const mText = document.getElementById('meter-val-text');
+        mText.textContent = `${ai.pollutionLevel} (${ai.pollutionIndex}/100)`;
+        mText.style.color = ai.pollutionColor;
+        // Animate fill after slight delay
+        setTimeout(() => {
+            fill.style.width = ai.pollutionIndex + '%';
+            fill.style.background = `linear-gradient(90deg, #1e40af, ${ai.pollutionColor})`;
+        }, 100);
+
+        // Spectral grid bars
+        const grid = document.getElementById('spectral-grid');
+        const channels = ['F1','F2','F3','F4','F5','F6','F7','F8','NIR','Clear'];
+        const maxVal = Math.max(...channels.map(c => avgs[c])) || 1;
+
+        grid.innerHTML = channels.map(ch => {
+            const pct = (avgs[ch] / maxVal) * 100;
+            return `<div class="spec-bar-wrap">
+                <div class="spec-bar-outer">
+                    <div class="spec-bar-inner"
+                         id="bar-${ch}"
+                         style="height:0%;background:${BAND_COLOURS[ch]};">
+                    </div>
+                </div>
+                <div class="spec-bar-label">${ch}</div>
+                <div class="spec-bar-val">${avgs[ch]}</div>
+            </div>`;
+        }).join('');
+
+        // Animate bars in
+        setTimeout(() => {
+            channels.forEach(ch => {
+                const pct = (avgs[ch] / maxVal) * 100;
+                const el = document.getElementById('bar-' + ch);
+                if (el) el.style.height = pct + '%';
+            });
+        }, 150);
+
+        // Interpretation text
+        document.getElementById('ai-interp').innerHTML =
+            ai.summary.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+        // Findings
+        const findList = document.getElementById('findings-list');
+        findList.innerHTML = (ai.findings || []).map(f => {
+            const cls = f.severity === 'alert' ? 'alert' : f.severity === 'warn' ? 'warn' : '';
+            return `<li>
+                <div class="finding-bullet ${cls}"></div>
+                <span>${f.text}</span>
+            </li>`;
+        }).join('');
+
+        result.classList.add('visible');
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       COORD VALIDATION
+    ───────────────────────────────────────────────────────────── */
     function validateCoord(input, type) {
         const val = input.value.trim();
         const errorEl = document.getElementById(`${type}-error`);
         if (!val) { input.className = ''; errorEl.style.display = 'none'; return false; }
         const num = parseFloat(val);
-        if (isNaN(num) || (type === 'lat' && (num < -90 || num > 90))
+        if (isNaN(num) || (type === 'lat' && (num < -90  || num > 90))
                        || (type === 'lng' && (num < -180 || num > 180))) {
             input.classList.remove('valid'); input.classList.add('invalid');
             errorEl.textContent = type === 'lat' ? 'Latitude must be -90 to 90.' : 'Longitude must be -180 to 180.';
@@ -314,7 +661,9 @@
         errorEl.style.display = 'none'; return true;
     }
 
-    // ── GitHub helpers ────────────────────────────────────────────
+    /* ─────────────────────────────────────────────────────────────
+       GITHUB HELPERS
+    ───────────────────────────────────────────────────────────── */
     async function ghGet(path) {
         const { owner, repo, token } = GITHUB_CONFIG;
         const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
@@ -344,7 +693,9 @@
         if (!res.ok) { const e = await res.json(); throw new Error(e.message || `CREATE ${path} failed (${res.status})`); }
     }
 
-    // ── Submit ────────────────────────────────────────────────────
+    /* ─────────────────────────────────────────────────────────────
+       SUBMIT
+    ───────────────────────────────────────────────────────────── */
     async function submitSession() {
         if (!parsedSession) {
             showStatus('error', 'No file loaded.', 'Please upload a CSV file first.');
@@ -356,7 +707,6 @@
 
         const lat = parseFloat(document.getElementById('lat-input').value);
         const lng = parseFloat(document.getElementById('lng-input').value);
-
         const btn = document.getElementById('submit-btn');
         btn.disabled = true;
 
@@ -369,16 +719,13 @@
         showStatus('saving', 'Saving...', 'Fetching session index from GitHub…');
 
         try {
-            // 1. Get current sessions.json
             const sessionsFile = await ghGet('sessions.json');
             const sessions     = JSON.parse(atob(sessionsFile.content.replace(/\n/g,'')));
 
-            // 2. Determine next session number
             const nextNum  = sessions.length + 1;
             const id       = `session_${String(nextNum).padStart(3,'0')}`;
             const filePath = `readings/${id}.json`;
 
-            // 3. Build session JSON
             const sessionData = {
                 id,
                 date:        parsedSession.date,
@@ -386,25 +733,17 @@
                 readings:    parsedSession.readings
             };
 
-            // 4. Write session file to readings/
             showStatus('saving', 'Saving...', `Writing ${filePath}…`);
             await ghCreate(filePath, JSON.stringify(sessionData, null, 2), `Add ${id}`);
 
-            // 5. Build summary entry for sessions.json
             const r       = parsedSession.readings;
             const summary = {
-                id,
-                file:      filePath,
-                date:      parsedSession.date,
-                timeStart: r[0].time,
-                timeEnd:   r[r.length-1].time,
-                avgClear:  parsedSession.avgClear,
-                peakClear: parsedSession.peakClear,
-                rowCount:  r.length,
-                coordinates: [lat, lng]
+                id, file: filePath, date: parsedSession.date,
+                timeStart: r[0].time, timeEnd: r[r.length-1].time,
+                avgClear: parsedSession.avgClear, peakClear: parsedSession.peakClear,
+                rowCount: r.length, coordinates: [lat, lng]
             };
 
-            // 6. Update sessions.json
             showStatus('saving', 'Saving...', 'Updating sessions index…');
             sessions.push(summary);
             await ghPut('sessions.json', JSON.stringify(sessions, null, 2), sessionsFile.sha,
@@ -413,12 +752,13 @@
             showStatus('success', `${id} saved!`,
                 `${r.length} readings committed to ${filePath}. The map will update shortly.`);
 
-            // Reset form
+            // Reset
             parsedSession = null;
             dropZone.classList.remove('has-file');
             dropZone.querySelector('.drop-zone-text').innerHTML = `Drop your CSV here or <strong>click to browse</strong>`;
             document.getElementById('csv-preview').classList.remove('visible');
             document.getElementById('csv-file').value = '';
+            document.getElementById('ai-card').classList.remove('visible');
             ['lat-input','lng-input'].forEach(id => {
                 const el = document.getElementById(id);
                 el.value = ''; el.className = '';
