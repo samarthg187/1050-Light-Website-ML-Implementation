@@ -246,12 +246,12 @@
             const readings = [];
             for (const line of lines) {
                 const parts = line.split(',').map(p => p.trim());
-                if (parts.length !== 13) continue;
+                if (parts.length < 12) continue;
                 if (isNaN(parts[2])) continue;
                 const [date, time, f1,f2,f3,f4,f5,f6,f7,f8,nir,clear,lux_est] = parts;
                 if (!/^\d{4}\/\d{2}\/\d{2}$/.test(date)) continue;
                 if (!/^\d{2}:\d{2}:\d{2}$/.test(time))   continue;
-                readings.push({ time, F1:+f1, F2:+f2, F3:+f3, F4:+f4, F5:+f5, F6:+f6, F7:+f7, F8:+f8, NIR:+nir, Clear:+clear });
+                readings.push({ time, F1:+f1, F2:+f2, F3:+f3, F4:+f4, F5:+f5, F6:+f6, F7:+f7, F8:+f8, NIR:+nir, Clear:+clear, Lux_Est: (lux_est !== undefined && lux_est !== "") ? +lux_est : null });
             }
             if (readings.length === 0) {
                 errorEl.textContent = 'No valid readings found. Check the CSV format.';
@@ -263,8 +263,8 @@
             const date     = lines.find(l => /^\d{4}\/\d{2}\/\d{2}/.test(l))?.split(',')[0] || '—';
             const clears   = readings.map(r => r.Clear);
             const avgClear = Math.round(clears.reduce((a,b) => a+b,0) / clears.length);
-            const luxes   = readings.map(r => r.Lux_Est);
-            const avgLux   = Math.round(luxes.reduce((a,b) => a+b,0) / luxes.length);
+            const luxes   = readings.map(r => r.Lux_Est).filter(v => v !== null && !isNaN(v));
+            const avgLux   = luxes.length > 0 ? Math.round(luxes.reduce((a,b) => a+b,0) / luxes.length) : null;
             const peak     = Math.max(...clears);
             parsedSession  = { date, readings, avgClear, peakClear: peak, avgLux };
 
@@ -276,7 +276,7 @@
             document.getElementById('prev-time').textContent  = `${readings[0].time} – ${readings[readings.length-1].time}`;
             document.getElementById('prev-avg').textContent   = avgClear;
             document.getElementById('prev-peak').textContent  = peak;
-            document.getElementById('prev-lux').textContent   = avgLux;
+            document.getElementById('prev-lux').textContent   = avgLux !== null ? avgLux : 'N/A';
             document.getElementById('csv-preview').classList.add('visible');
 
             runAnalysis(parsedSession);
