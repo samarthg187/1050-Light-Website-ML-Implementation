@@ -58,6 +58,14 @@
         .prose { font-size: 0.92rem; color: var(--muted); line-height: 1.9; margin-bottom: 40px; }
         .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 
+        /* Callout box for gain change note */
+        .callout {
+            background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.2);
+            border-radius: 8px; padding: 16px 20px; margin-bottom: 24px;
+            font-size: 0.85rem; color: var(--muted); line-height: 1.8;
+        }
+        .callout strong { color: var(--accent); display: block; margin-bottom: 6px; font-family: 'Space Mono', monospace; font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase; }
+
         .format-table { width: 100%; border-collapse: collapse; margin: 16px 0 40px; font-size: 0.85rem; }
         .format-table th { background: var(--bg-card); color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-size: 0.7rem; padding: 10px 16px; border: 1px solid var(--border); text-align: left; }
         .format-table td { padding: 10px 16px; border: 1px solid var(--border); color: var(--text); vertical-align: top; }
@@ -93,7 +101,7 @@
     <header>
         <div class="site-title">1050 Lab 25<span>Light Pollution Monitor</span></div>
         <nav>
-            <a href="index.html">
+            <a href="Homepage.html">
                 <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7A1 1 0 003 11h1v6a1 1 0 001 1h4v-4h2v4h4a1 1 0 001-1v-6h1a1 1 0 00.707-1.707l-7-7z"/></svg>
                 Home
             </a>
@@ -122,7 +130,7 @@
         <table class="format-table" style="margin-bottom:32px;">
             <thead><tr><th>Component</th><th>Part</th><th>Role</th></tr></thead>
             <tbody>
-                <tr><td>Spectral Sensor</td><td class="mono">AS7341</td><td>Captures 8 visible light bands + NIR + Clear at 2-second intervals via I²C</td></tr>
+                <tr><td>Spectral Sensor</td><td class="mono">AS7341</td><td>Captures 8 visible light bands + NIR + Clear at 2-second intervals via I²C. Gain set to 16× for urban light levels (saturation ~1600 lux).</td></tr>
                 <tr><td>Real-Time Clock</td><td class="mono">DS1302</td><td>Timestamps each reading with date and time via 3-wire interface</td></tr>
                 <tr><td>Storage</td>        <td class="mono">SD Card</td><td>Writes readings to a CSV file named by boot date (e.g. <span class="mono">0315.csv</span>)</td></tr>
                 <tr><td>Microcontroller</td><td class="mono">ESP32</td><td>Coordinates all components; pins SDA=33, SCL=32, CS=5</td></tr>
@@ -142,19 +150,20 @@
                     <span class="lang-badge">CSV</span>
                 </div>
             </div>
-            <pre><span class="cm">Date,Time,F1,F2,F3,F4,F5,F6,F7,F8,NIR,Clear</span>
-<span class="num">2024/03/15</span><span class="op">,</span><span class="num">07:30:00</span><span class="op">,</span><span class="num">120</span><span class="op">,</span><span class="num">145</span><span class="op">,</span><span class="num">160</span><span class="op">,</span><span class="num">210</span><span class="op">,</span><span class="num">198</span><span class="op">,</span><span class="num">175</span><span class="op">,</span><span class="num">143</span><span class="op">,</span><span class="num">98</span><span class="op">,</span><span class="num">88</span><span class="op">,</span><span class="num">450</span>
-<span class="num">2024/03/15</span><span class="op">,</span><span class="num">07:30:02</span><span class="op">,</span><span class="num">122</span><span class="op">,</span><span class="num">148</span><span class="op">,</span><span class="num">163</span><span class="op">,</span><span class="num">214</span><span class="op">,</span><span class="num">201</span><span class="op">,</span><span class="num">178</span><span class="op">,</span><span class="num">146</span><span class="op">,</span><span class="num">100</span><span class="op">,</span><span class="num">90</span><span class="op">,</span><span class="num">455</span></pre>
+            <pre><span class="cm">Date,Time,F1,F2,F3,F4,F5,F6,F7,F8,NIR,Clear,Lux_Est</span>
+<span class="num">2024/03/15</span><span class="op">,</span><span class="num">07:30:00</span><span class="op">,</span><span class="num">120</span><span class="op">,</span><span class="num">145</span><span class="op">,</span><span class="num">160</span><span class="op">,</span><span class="num">210</span><span class="op">,</span><span class="num">198</span><span class="op">,</span><span class="num">175</span><span class="op">,</span><span class="num">143</span><span class="op">,</span><span class="num">98</span><span class="op">,</span><span class="num">88</span><span class="op">,</span><span class="num">450</span><span class="op">,</span><span class="num">17.632</span>
+<span class="num">2024/03/15</span><span class="op">,</span><span class="num">07:30:02</span><span class="op">,</span><span class="num">122</span><span class="op">,</span><span class="num">148</span><span class="op">,</span><span class="num">163</span><span class="op">,</span><span class="num">214</span><span class="op">,</span><span class="num">201</span><span class="op">,</span><span class="num">178</span><span class="op">,</span><span class="num">146</span><span class="op">,</span><span class="num">100</span><span class="op">,</span><span class="num">90</span><span class="op">,</span><span class="num">455</span><span class="op">,</span><span class="num">17.827</span></pre>
         </div>
 
         <table class="format-table">
             <thead><tr><th>Field</th><th>Format</th><th>Example</th><th>Description</th></tr></thead>
             <tbody>
-                <tr><td>Date</td>  <td class="mono">yyyy/mm/dd</td><td class="mono">2024/03/15</td><td>Calendar date with slashes</td></tr>
-                <tr><td>Time</td>  <td class="mono">hh:mm:ss</td> <td class="mono">07:30:00</td>  <td>24-hour time with colons</td></tr>
-                <tr><td>F1–F8</td> <td class="mono">integer</td>  <td class="mono">120</td>        <td>Visible spectral band intensities (violet → red)</td></tr>
-                <tr><td>NIR</td>   <td class="mono">integer</td>  <td class="mono">88</td>         <td>Near-infrared channel intensity</td></tr>
-                <tr><td>Clear</td> <td class="mono">integer</td>  <td class="mono">450</td>        <td>Broadband clear channel — used for map colour-coding</td></tr>
+                <tr><td>Date</td>     <td class="mono">yyyy/mm/dd</td><td class="mono">2024/03/15</td><td>Calendar date with slashes</td></tr>
+                <tr><td>Time</td>     <td class="mono">hh:mm:ss</td> <td class="mono">07:30:00</td>  <td>24-hour time with colons</td></tr>
+                <tr><td>F1–F8</td>    <td class="mono">integer</td>  <td class="mono">120</td>        <td>Visible spectral band intensities (415 nm violet → 680 nm red)</td></tr>
+                <tr><td>NIR</td>      <td class="mono">integer</td>  <td class="mono">88</td>         <td>Near-infrared channel intensity</td></tr>
+                <tr><td>Clear</td>    <td class="mono">integer</td>  <td class="mono">450</td>        <td>Broadband clear channel — used for map colour-coding</td></tr>
+                <tr><td>Lux_Est</td>  <td class="mono">float</td>    <td class="mono">17.632</td>     <td>Estimated illuminance in lux, derived from the Clear channel using the formula: <span class="mono">Clear / (GAIN × TINT) × LUX_FACTOR</span></td></tr>
             </tbody>
         </table>
 
@@ -162,101 +171,135 @@
 
         <p class="section-label">Firmware</p>
         <h2>Sensor Code</h2>
-        <p class="prose" style="margin-bottom:14px;">Arduino sketch running on the ESP32. Initialises the RTC, AS7341, and SD card on boot, then logs one row every 2 seconds:</p>
+        <p class="prose" style="margin-bottom:14px;">Arduino sketch running on the ESP32 (firmware v2). Initialises the RTC, AS7341, and SD card on boot, then logs one row every 2 seconds.</p>
 
         <div class="code-block">
             <div class="code-header">
-                <div class="code-header-left"><span class="code-filename">sensor_main.ino</span><span class="lang-badge">C++</span></div>
+                <div class="code-header-left"><span class="code-filename">light_monitor_v2.ino</span><span class="lang-badge">C++</span></div>
                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
             </div>
-            <pre><span class="kw">#include</span> <span class="str">&lt;Wire.h&gt;</span>
+            <pre><span class="cm">/*
+ * Light Pollution Monitor — Firmware v2
+ * ======================================
+ * Hardware: ESP32 WROOM + Adafruit AS7341 + DS1302 RTC + MicroSD
+ *
+ * GAIN CHANGE from original firmware
+ * -----------------------------------
+ * The original code used AS7341_GAIN_256X.  That gain was designed for
+ * dark-sky astronomy — it saturates (maxes out) at roughly 100 lux, which
+ * is less bright than a streetlight seen from 5 metres away.
+ *
+ * This project measures point-source light pollution in an urban environment:
+ *   • Glare from streetlights at 2–5 m         → ~100–400 lux
+ *   • Light trespass at a property boundary     → 0.5–20 lux
+ *   • Skyglow (diffuse, sensor tilted upward)   → 0.05–5 lux
+ *
+ * AS7341_GAIN_16X gives:
+ *   Saturation at: ~1600 lux  (handles all practical urban scenes)
+ *   Min detectable: ~0.25 lux (still resolves trespass below the 2-lux limit)
+ */</span>
+
+<span class="kw">#include</span> <span class="str">&lt;Wire.h&gt;</span>
 <span class="kw">#include</span> <span class="str">&lt;ThreeWire.h&gt;</span>
 <span class="kw">#include</span> <span class="str">&lt;RtcDS1302.h&gt;</span>
 <span class="kw">#include</span> <span class="str">&lt;Adafruit_AS7341.h&gt;</span>
 <span class="kw">#include</span> <span class="str">&lt;SPI.h&gt;</span>
 <span class="kw">#include</span> <span class="str">&lt;SD.h&gt;</span>
 
-<span class="cm">// I2C Pins for AS7341 Spectral Sensor</span>
-<span class="kw">const int</span> SDA_PIN <span class="op">=</span> <span class="num">33</span><span class="op">;</span>
-<span class="kw">const int</span> SCL_PIN <span class="op">=</span> <span class="num">32</span><span class="op">;</span>
+<span class="cm">// ── Pin assignments ───────────────────────────────────────────────────────────</span>
+<span class="kw">const int</span> SDA_PIN    <span class="op">=</span> <span class="num">33</span><span class="op">;</span>
+<span class="kw">const int</span> SCL_PIN    <span class="op">=</span> <span class="num">32</span><span class="op">;</span>
+<span class="kw">const int</span> RTC_IO     <span class="op">=</span> <span class="num">26</span><span class="op">;</span>
+<span class="kw">const int</span> RTC_SCLK   <span class="op">=</span> <span class="num">25</span><span class="op">;</span>
+<span class="kw">const int</span> RTC_RST    <span class="op">=</span> <span class="num">27</span><span class="op">;</span>
+<span class="kw">const int</span> chipSelect <span class="op">=</span>  <span class="num">5</span><span class="op">;</span>
 
-<span class="cm">// 3-Wire Pins for DS1302 RTC</span>
-<span class="kw">const int</span> RTC_IO   <span class="op">=</span> <span class="num">26</span><span class="op">;</span>
-<span class="kw">const int</span> RTC_SCLK <span class="op">=</span> <span class="num">25</span><span class="op">;</span>
-<span class="kw">const int</span> RTC_RST  <span class="op">=</span> <span class="num">27</span><span class="op">;</span>
+<span class="cm">// ── Lux calibration ──────────────────────────────────────────────────────────
+// lux ≈ Clear_ADC / (GAIN × TINT_S) × LUX_FACTOR
+// GAIN_MULT must match the gain constant set below (16 for AS7341_GAIN_16X).
+// LUX_FACTOR: validate against a reference meter. 0.110 is a starting point.</span>
+<span class="kw">const float</span> GAIN_MULT  <span class="op">=</span>   <span class="num">16.0f</span><span class="op">;</span>
+<span class="kw">const float</span> TINT_S     <span class="op">=</span>    <span class="num">0.2808f</span><span class="op">;</span>
+<span class="kw">const float</span> LUX_FACTOR <span class="op">=</span>    <span class="num">0.110f</span><span class="op">;</span>
 
-<span class="cm">// SD chip select pin</span>
-<span class="kw">const int</span> chipSelect <span class="op">=</span> <span class="num">5</span><span class="op">;</span>
+<span class="cm">// ── Saturation threshold ──────────────────────────────────────────────────────</span>
+<span class="kw">const uint16_t</span> SAT_WARN <span class="op">=</span> <span class="num">65400</span><span class="op">;</span>
 
-ThreeWire myWire(RTC_IO, RTC_SCLK, RTC_RST)<span class="op">;</span>
-RtcDS1302<span class="op">&lt;</span>ThreeWire<span class="op">&gt;</span> Rtc(myWire)<span class="op">;</span>
-Adafruit_AS7341 as7341<span class="op">;</span>
+ThreeWire            <span class="fn">myWire</span>(RTC_IO, RTC_SCLK, RTC_RST)<span class="op">;</span>
+RtcDS1302<span class="op">&lt;</span>ThreeWire<span class="op">&gt;</span> <span class="fn">Rtc</span>(myWire)<span class="op">;</span>
+Adafruit_AS7341      as7341<span class="op">;</span>
 
 <span class="kw">char</span> sessionFilename[<span class="num">16</span>]<span class="op">;</span>
 <span class="kw">bool</span> needHeader <span class="op">=</span> <span class="kw">false</span><span class="op">;</span>
 
+<span class="kw">float</span> <span class="fn">estimateLux</span>(<span class="kw">uint16_t</span> clearCounts) {
+    <span class="kw">return</span> (<span class="kw">float</span>)clearCounts <span class="op">/</span> (GAIN_MULT <span class="op">*</span> TINT_S) <span class="op">*</span> LUX_FACTOR<span class="op">;</span>
+}
+
 <span class="kw">void</span> <span class="fn">setup</span>() {
-  Serial<span class="op">.</span><span class="fn">begin</span>(<span class="num">115200</span>)<span class="op">;</span>
+    Serial<span class="op">.</span><span class="fn">begin</span>(<span class="num">115200</span>)<span class="op">;</span>
 
-  <span class="cm">// Init RTC</span>
-  Rtc<span class="op">.</span><span class="fn">Begin</span>()<span class="op">;</span>
-  Rtc<span class="op">.</span><span class="fn">SetIsWriteProtected</span>(<span class="kw">false</span>)<span class="op">;</span>
-  Rtc<span class="op">.</span><span class="fn">SetIsRunning</span>(<span class="kw">true</span>)<span class="op">;</span>
+    Rtc<span class="op">.</span><span class="fn">Begin</span>()<span class="op">;</span>
+    Rtc<span class="op">.</span><span class="fn">SetIsWriteProtected</span>(<span class="kw">false</span>)<span class="op">;</span>
+    Rtc<span class="op">.</span><span class="fn">SetIsRunning</span>(<span class="kw">true</span>)<span class="op">;</span>
 
-  <span class="cm">// Session filename based on boot date (e.g. /0315.csv)</span>
-  RtcDateTime bootTime <span class="op">=</span> Rtc<span class="op">.</span><span class="fn">GetDateTime</span>()<span class="op">;</span>
-  <span class="fn">sprintf</span>(sessionFilename, <span class="str">"/%02u%02u.csv"</span>,
-          bootTime<span class="op">.</span><span class="fn">Month</span>(), bootTime<span class="op">.</span><span class="fn">Day</span>())<span class="op">;</span>
+    RtcDateTime bootTime <span class="op">=</span> Rtc<span class="op">.</span><span class="fn">GetDateTime</span>()<span class="op">;</span>
+    <span class="fn">sprintf</span>(sessionFilename, <span class="str">"/%02u%02u.csv"</span>, bootTime<span class="op">.</span><span class="fn">Month</span>(), bootTime<span class="op">.</span><span class="fn">Day</span>())<span class="op">;</span>
 
-  <span class="cm">// Init AS7341 spectral sensor</span>
-  Wire<span class="op">.</span><span class="fn">begin</span>(SDA_PIN, SCL_PIN)<span class="op">;</span>
-  <span class="kw">if</span> (as7341<span class="op">.</span><span class="fn">begin</span>()) {
-    as7341<span class="op">.</span><span class="fn">setATIME</span>(<span class="num">100</span>)<span class="op">;</span>
-    as7341<span class="op">.</span><span class="fn">setASTEP</span>(<span class="num">999</span>)<span class="op">;</span>
-    as7341<span class="op">.</span><span class="fn">setGain</span>(AS7341_GAIN_256X)<span class="op">;</span>
-  }
+    Wire<span class="op">.</span><span class="fn">begin</span>(SDA_PIN, SCL_PIN)<span class="op">;</span>
+    <span class="kw">if</span> (as7341<span class="op">.</span><span class="fn">begin</span>()) {
+        as7341<span class="op">.</span><span class="fn">setATIME</span>(<span class="num">100</span>)<span class="op">;</span>
+        as7341<span class="op">.</span><span class="fn">setASTEP</span>(<span class="num">999</span>)<span class="op">;</span>
+        as7341<span class="op">.</span><span class="fn">setGain</span>(AS7341_GAIN_16X)<span class="op">;</span>  <span class="cm">// 16× — saturation ~1600 lux</span>
+    }
 
-  <span class="cm">// Init SD card</span>
-  <span class="kw">if</span> (SD<span class="op">.</span><span class="fn">begin</span>(chipSelect)) {
-    needHeader <span class="op">=</span> <span class="op">!</span>SD<span class="op">.</span><span class="fn">exists</span>(sessionFilename)<span class="op">;</span>
-  }
+    <span class="kw">if</span> (SD<span class="op">.</span><span class="fn">begin</span>(chipSelect)) {
+        needHeader <span class="op">=</span> <span class="op">!</span>SD<span class="op">.</span><span class="fn">exists</span>(sessionFilename)<span class="op">;</span>
+    }
 }
 
 <span class="kw">void</span> <span class="fn">loop</span>() {
-  RtcDateTime now <span class="op">=</span> Rtc<span class="op">.</span><span class="fn">GetDateTime</span>()<span class="op">;</span>
-  <span class="kw">uint16_t</span> readings[<span class="num">12</span>]<span class="op">;</span>
+    RtcDateTime now <span class="op">=</span> Rtc<span class="op">.</span><span class="fn">GetDateTime</span>()<span class="op">;</span>
+    <span class="kw">uint16_t</span> readings[<span class="num">12</span>]<span class="op">;</span>
 
-  <span class="kw">if</span> (as7341<span class="op">.</span><span class="fn">readAllChannels</span>(readings)) {
-    <span class="kw">char</span> timestamp[<span class="num">25</span>]<span class="op">;</span>
-    <span class="fn">sprintf</span>(timestamp, <span class="str">"%04u/%02u/%02u,%02u:%02u:%02u"</span>,
-            now<span class="op">.</span><span class="fn">Year</span>(), now<span class="op">.</span><span class="fn">Month</span>(), now<span class="op">.</span><span class="fn">Day</span>(),
-            now<span class="op">.</span><span class="fn">Hour</span>(), now<span class="op">.</span><span class="fn">Minute</span>(), now<span class="op">.</span><span class="fn">Second</span>())<span class="op">;</span>
+    <span class="kw">if</span> (as7341<span class="op">.</span><span class="fn">readAllChannels</span>(readings)) {
+        <span class="kw">char</span> ts[<span class="num">25</span>]<span class="op">;</span>
+        <span class="fn">sprintf</span>(ts, <span class="str">"%04u/%02u/%02u,%02u:%02u:%02u"</span>,
+                now<span class="op">.</span><span class="fn">Year</span>(), now<span class="op">.</span><span class="fn">Month</span>(), now<span class="op">.</span><span class="fn">Day</span>(),
+                now<span class="op">.</span><span class="fn">Hour</span>(), now<span class="op">.</span><span class="fn">Minute</span>(), now<span class="op">.</span><span class="fn">Second</span>())<span class="op">;</span>
 
-    <span class="cm">// Write CSV header on first boot</span>
-    <span class="kw">if</span> (needHeader) {
-      File tmp <span class="op">=</span> SD<span class="op">.</span><span class="fn">open</span>(sessionFilename, FILE_WRITE)<span class="op">;</span>
-      <span class="kw">if</span> (tmp) {
-        tmp<span class="op">.</span><span class="fn">println</span>(<span class="str">"Date,Time,F1,F2,F3,F4,F5,F6,F7,F8,NIR,Clear"</span>)<span class="op">;</span>
-        tmp<span class="op">.</span><span class="fn">close</span>()<span class="op">;</span>
-        needHeader <span class="op">=</span> <span class="kw">false</span><span class="op">;</span>
-      }
+        <span class="kw">float</span> lux <span class="op">=</span> <span class="fn">estimateLux</span>(readings[<span class="num">9</span>])<span class="op">;</span>  <span class="cm">// Clear = index 9</span>
+
+        <span class="cm">// Saturation warning (serial only — data still logged)</span>
+        <span class="kw">bool</span> saturated <span class="op">=</span> <span class="kw">false</span><span class="op">;</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="num">10</span><span class="op">;</span> i<span class="op">++</span>) {
+            <span class="kw">if</span> (readings[i] <span class="op">&gt;=</span> SAT_WARN) { saturated <span class="op">=</span> <span class="kw">true</span><span class="op">;</span> <span class="kw">break</span><span class="op">;</span> }
+        }
+        <span class="kw">if</span> (saturated) Serial<span class="op">.</span><span class="fn">printf</span>(<span class="str">"[!] SAT — move 2–5 m from source (lux~%.0f)\n"</span>, lux)<span class="op">;</span>
+
+        <span class="cm">// Write header on first boot</span>
+        <span class="kw">if</span> (needHeader) {
+            File f <span class="op">=</span> SD<span class="op">.</span><span class="fn">open</span>(sessionFilename, FILE_WRITE)<span class="op">;</span>
+            <span class="kw">if</span> (f) {
+                f<span class="op">.</span><span class="fn">println</span>(<span class="str">"Date,Time,F1,F2,F3,F4,F5,F6,F7,F8,NIR,Clear,Lux_Est"</span>)<span class="op">;</span>
+                f<span class="op">.</span><span class="fn">close</span>()<span class="op">;</span>
+                needHeader <span class="op">=</span> <span class="kw">false</span><span class="op">;</span>
+            }
+        }
+
+        <span class="cm">// Append data row</span>
+        File dataFile <span class="op">=</span> SD<span class="op">.</span><span class="fn">open</span>(sessionFilename, FILE_APPEND)<span class="op">;</span>
+        <span class="kw">if</span> (dataFile) {
+            dataFile<span class="op">.</span><span class="fn">print</span>(ts)<span class="op">;</span>
+            <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="num">10</span><span class="op">;</span> i<span class="op">++</span>) {
+                dataFile<span class="op">.</span><span class="fn">print</span>(<span class="str">","</span>)<span class="op">;</span> dataFile<span class="op">.</span><span class="fn">print</span>(readings[i])<span class="op">;</span>
+            }
+            dataFile<span class="op">.</span><span class="fn">printf</span>(<span class="str">",%.3f\n"</span>, lux)<span class="op">;</span>
+            dataFile<span class="op">.</span><span class="fn">close</span>()<span class="op">;</span>
+        }
     }
 
-    <span class="cm">// Append data row</span>
-    File dataFile <span class="op">=</span> SD<span class="op">.</span><span class="fn">open</span>(sessionFilename, FILE_APPEND)<span class="op">;</span>
-    <span class="kw">if</span> (dataFile) {
-      dataFile<span class="op">.</span><span class="fn">print</span>(timestamp)<span class="op">;</span>
-      dataFile<span class="op">.</span><span class="fn">print</span>(<span class="str">","</span>)<span class="op">;</span>
-      <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="num">10</span><span class="op">;</span> i<span class="op">++</span>) {
-        dataFile<span class="op">.</span><span class="fn">print</span>(readings[i])<span class="op">;</span>
-        <span class="kw">if</span> (i <span class="op">&lt;</span> <span class="num">9</span>) dataFile<span class="op">.</span><span class="fn">print</span>(<span class="str">","</span>)<span class="op">;</span>
-      }
-      dataFile<span class="op">.</span><span class="fn">println</span>()<span class="op">;</span>
-      dataFile<span class="op">.</span><span class="fn">close</span>()<span class="op">;</span>
-    }
-  }
-
-  <span class="fn">delay</span>(<span class="num">2000</span>)<span class="op">;</span> <span class="cm">// 2-second logging interval</span>
+    <span class="fn">delay</span>(<span class="num">2000</span>)<span class="op">;</span>  <span class="cm">// 2-second logging interval</span>
 }</pre>
         </div>
 
