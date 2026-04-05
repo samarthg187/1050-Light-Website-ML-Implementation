@@ -51,10 +51,7 @@
 
         .coord-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-        .drop-zone {
-            border: 2px dashed var(--border); border-radius: 8px; padding: 36px 24px;
-            text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative;
-        }
+        .drop-zone { border: 2px dashed var(--border); border-radius: 8px; padding: 36px 24px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; }
         .drop-zone:hover, .drop-zone.dragover { border-color: var(--accent); background: rgba(56,189,248,0.04); }
         .drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
         .drop-zone-icon { font-size: 2rem; margin-bottom: 10px; }
@@ -69,40 +66,18 @@
         .preview-label { color: var(--muted); min-width: 120px; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .preview-val { color: var(--accent); }
 
-        /* ── AI Analysis card ─────────────────────────────────────── */
-        .analysis-card {
-            background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: 10px; padding: 28px; margin-bottom: 16px;
-            display: none;
-        }
+        .analysis-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 28px; margin-bottom: 16px; display: none; }
         .analysis-card.visible { display: block; }
         .analysis-card h2 { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
-        .analysis-card h2 .ai-badge { background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.25); color: var(--accent); font-size: 0.62rem; padding: 2px 8px; border-radius: 4px; letter-spacing: 1.5px; }
-
+        .ai-badge { background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.25); color: var(--accent); font-size: 0.62rem; padding: 2px 8px; border-radius: 4px; letter-spacing: 1.5px; }
         .analysis-body { font-size: 0.88rem; color: var(--muted); line-height: 1.85; }
         .analysis-body p { margin-bottom: 10px; }
         .analysis-body p:last-child { margin-bottom: 0; }
-
-        .analysis-loading {
-            display: flex; align-items: center; gap: 12px;
-            font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--muted);
-        }
-        .analysis-spinner {
-            width: 16px; height: 16px; border: 2px solid var(--border);
-            border-top-color: var(--accent); border-radius: 50%;
-            animation: spin 0.8s linear infinite; flex-shrink: 0;
-        }
+        .analysis-loading { display: flex; align-items: center; gap: 12px; font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--muted); }
+        .analysis-spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        .analysis-error { display: flex; align-items: flex-start; gap: 10px; background: #0d1117; border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); }
 
-        .analysis-error {
-            display: flex; align-items: flex-start; gap: 10px;
-            background: #0d1117; border: 1px solid var(--border);
-            border-radius: 6px; padding: 12px 14px;
-            font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted);
-        }
-        .analysis-error-icon { color: var(--muted); flex-shrink: 0; margin-top: 1px; }
-
-        /* ── Submit ───────────────────────────────────────────────── */
         .submit-btn { width: 100%; background: var(--accent); color: #07090f; border: none; border-radius: 6px; padding: 12px; font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: opacity 0.2s; }
         .submit-btn:hover { opacity: 0.88; }
         .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -120,7 +95,6 @@
 
         .config-warn { background: #1a0505; border: 1px solid var(--lum-high); border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; font-family: 'Space Mono', monospace; font-size: 0.78rem; color: #fca5a5; display: none; }
         .config-warn strong { color: var(--lum-high); display: block; margin-bottom: 6px; }
-
         .format-hint { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.8; }
         .format-hint strong { color: var(--text); display: block; margin-bottom: 6px; font-size: 0.78rem; }
         .format-hint code { color: var(--accent); }
@@ -171,7 +145,6 @@
             One row per 2-second reading. No header row required (it will be skipped automatically if present).
         </div>
 
-        <!-- CSV UPLOAD -->
         <div class="form-card">
             <p class="section-label">Session File</p>
             <h2>Upload CSV</h2>
@@ -194,22 +167,17 @@
             </div>
         </div>
 
-        <!-- AI ANALYSIS -->
         <div class="analysis-card" id="analysis-card">
             <p class="section-label">AI Insights</p>
-            <h2>
-                Session Analysis
-                <span class="ai-badge">AI</span>
-            </h2>
+            <h2>Session Analysis <span class="ai-badge">AI</span></h2>
             <div id="analysis-content">
-                <div class="analysis-loading" id="analysis-loading">
+                <div class="analysis-loading">
                     <div class="analysis-spinner"></div>
                     Analysing spectral data…
                 </div>
             </div>
         </div>
 
-        <!-- LOCATION -->
         <div class="form-card">
             <p class="section-label">Location</p>
             <h2>Coordinates</h2>
@@ -228,7 +196,6 @@
         </div>
 
         <button class="submit-btn" id="submit-btn" onclick="submitSession()">Save Session</button>
-
         <div class="status-msg" id="status-msg">
             <strong id="status-title"></strong>
             <span id="status-sub"></span>
@@ -246,10 +213,8 @@
     </footer>
 
     <script>
-    const BAND_NAMES = ['F1','F2','F3','F4','F5','F6','F7','F8'];
     let parsedSession = null;
 
-    // ── Config check ───────────────────────────────────────────────
     function configReady() {
         if (typeof GITHUB_CONFIG === 'undefined') return false;
         const { owner, repo, token } = GITHUB_CONFIG;
@@ -261,46 +226,32 @@
         if (!configReady()) document.getElementById('config-warn').style.display = 'block';
     });
 
-    // ── Drag and drop styling ──────────────────────────────────────
     const dropZone = document.getElementById('drop-zone');
     dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
     dropZone.addEventListener('drop', e => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
+        e.preventDefault(); dropZone.classList.remove('dragover');
         const file = e.dataTransfer.files[0];
         if (file) handleFile(file);
     });
 
-    // ── Parse CSV ──────────────────────────────────────────────────
     function handleFile(file) {
         if (!file) return;
         const errorEl = document.getElementById('file-error');
         errorEl.style.display = 'none';
-
         const reader = new FileReader();
         reader.onload = e => {
-            const lines = e.target.result.trim().split('\n')
-                .map(l => l.trim()).filter(l => l.length > 0);
-
+            const lines = e.target.result.trim().split('\n').map(l => l.trim()).filter(l => l.length > 0);
             const readings = [];
             for (const line of lines) {
                 const parts = line.split(',').map(p => p.trim());
                 if (parts.length !== 12) continue;
-                if (isNaN(parts[2])) continue; // skip header
-
+                if (isNaN(parts[2])) continue;
                 const [date, time, f1,f2,f3,f4,f5,f6,f7,f8,nir,clear] = parts;
                 if (!/^\d{4}\/\d{2}\/\d{2}$/.test(date)) continue;
                 if (!/^\d{2}:\d{2}:\d{2}$/.test(time))   continue;
-
-                readings.push({
-                    time,
-                    F1: +f1, F2: +f2, F3: +f3, F4: +f4,
-                    F5: +f5, F6: +f6, F7: +f7, F8: +f8,
-                    NIR: +nir, Clear: +clear
-                });
+                readings.push({ time, F1:+f1, F2:+f2, F3:+f3, F4:+f4, F5:+f5, F6:+f6, F7:+f7, F8:+f8, NIR:+nir, Clear:+clear });
             }
-
             if (readings.length === 0) {
                 errorEl.textContent = 'No valid readings found. Check the CSV format.';
                 errorEl.style.display = 'block';
@@ -308,18 +259,14 @@
                 parsedSession = null;
                 return;
             }
-
             const date     = lines.find(l => /^\d{4}\/\d{2}\/\d{2}/.test(l))?.split(',')[0] || '—';
             const clears   = readings.map(r => r.Clear);
             const avgClear = Math.round(clears.reduce((a,b) => a+b,0) / clears.length);
             const peak     = Math.max(...clears);
+            parsedSession  = { date, readings, avgClear, peakClear: peak };
 
-            parsedSession = { date, readings, avgClear, peakClear: peak };
-
-            // Update file preview
             dropZone.classList.add('has-file');
             dropZone.querySelector('.drop-zone-text').innerHTML = `<strong>${file.name}</strong> loaded`;
-
             document.getElementById('prev-file').textContent  = file.name;
             document.getElementById('prev-rows').textContent  = readings.length;
             document.getElementById('prev-date').textContent  = date;
@@ -328,33 +275,26 @@
             document.getElementById('prev-peak').textContent  = peak;
             document.getElementById('csv-preview').classList.add('visible');
 
-            // Kick off AI analysis
             runAnalysis(parsedSession);
         };
         reader.readAsText(file);
     }
 
-    // ── AI Analysis via Anthropic API ──────────────────────────────
+    // ── AI Analysis — calls Netlify serverless function ────────────
     async function runAnalysis(session) {
         const card    = document.getElementById('analysis-card');
         const content = document.getElementById('analysis-content');
 
-        // Show the card with loading spinner
         card.classList.add('visible');
         content.innerHTML = `
-            <div class="analysis-loading" id="analysis-loading">
+            <div class="analysis-loading">
                 <div class="analysis-spinner"></div>
                 Analysing spectral data…
             </div>`;
 
-        // Build a compact summary to send — avoids huge token usage
-        const r        = session.readings;
-        const clears   = r.map(x => x.Clear);
-        const nirs     = r.map(x => x.NIR);
-        const avgBands = ['F1','F2','F3','F4','F5','F6','F7','F8'].map(b => {
-            const avg = Math.round(r.reduce((s, row) => s + row[b], 0) / r.length);
-            return `${b}=${avg}`;
-        }).join(', ');
+        const r      = session.readings;
+        const clears = r.map(x => x.Clear);
+        const nirs   = r.map(x => x.NIR);
 
         const summary = {
             date:      session.date,
@@ -363,67 +303,41 @@
             avgClear:  session.avgClear,
             peakClear: session.peakClear,
             minClear:  Math.min(...clears),
-            avgNIR:    Math.round(nirs.reduce((a,b)=>a+b,0)/nirs.length),
-            avgBands
+            avgNIR:    Math.round(nirs.reduce((a,b) => a+b, 0) / nirs.length),
+            avgBands:  ['F1','F2','F3','F4','F5','F6','F7','F8'].map(b => {
+                const avg = Math.round(r.reduce((s, row) => s + row[b], 0) / r.length);
+                return `${b}=${avg}`;
+            }).join(', ')
         };
 
-        const prompt = `You are a light pollution data assistant for a student lab (1050 Lab 25, London, Ontario).
-A student has uploaded a sensor session. The AS7341 spectral sensor captures 8 visible bands (F1=violet to F8=red), NIR, and a broadband Clear channel.
-
-Session summary:
-- Date: ${summary.date}
-- Readings: ${summary.rowCount} (one per 2 seconds, total ~${Math.round(summary.durationS/60)} min)
-- Clear channel — avg: ${summary.avgClear}, peak: ${summary.peakClear}, min: ${summary.minClear}
-- Avg NIR: ${summary.avgNIR}
-- Average per spectral band: ${summary.avgBands}
-
-Give a concise 3–4 sentence plain-English analysis of what this data suggests about the light environment at this location. Comment on overall brightness level, any notable spectral signature (e.g. warm/cool light, heavy NIR), and whether the intensity trend (rising, falling, steady) is consistent with a typical outdoor recording session. Keep it factual and helpful for a student lab report. No bullet points — just prose.`;
-
         try {
-            const response = await fetch('https://api.anthropic.com/v1/messages', {
-                method: 'POST',
+            const res = await fetch('/.netlify/functions/analyse', {
+                method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    model: 'claude-sonnet-4-20250514',
-                    max_tokens: 1000,
-                    messages: [{ role: 'user', content: prompt }]
-                })
+                body:    JSON.stringify({ summary })
             });
-
-            if (!response.ok) {
-                const err = await response.json().catch(() => ({}));
-                throw new Error(err.error?.message || `HTTP ${response.status}`);
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err.error || `Server error ${res.status}`);
             }
-
-            const data = await response.json();
-            const text = data.content
-                .filter(b => b.type === 'text')
-                .map(b => b.text)
-                .join('');
-
-            // Render analysis as paragraphs
-            const paras = text.trim().split(/\n+/).filter(p => p.trim());
-            content.innerHTML = `<div class="analysis-body">${
-                paras.map(p => `<p>${p}</p>`).join('')
-            }</div>`;
-
+            const data  = await res.json();
+            const paras = data.analysis.trim().split(/\n+/).filter(p => p.trim());
+            content.innerHTML = `<div class="analysis-body">${paras.map(p => `<p>${p}</p>`).join('')}</div>`;
         } catch (err) {
-            // Silent failure — show a neutral note, don't block submission
             content.innerHTML = `
                 <div class="analysis-error">
-                    <span class="analysis-error-icon">ℹ</span>
-                    <span>AI analysis unavailable in this environment — your file parsed successfully and you can still submit.</span>
+                    <span>ℹ</span>
+                    <span>AI analysis unavailable — your file parsed successfully and you can still submit. (${err.message})</span>
                 </div>`;
         }
     }
 
-    // ── Coord validation ───────────────────────────────────────────
     function validateCoord(input, type) {
         const val = input.value.trim();
         const errorEl = document.getElementById(`${type}-error`);
         if (!val) { input.className = ''; errorEl.style.display = 'none'; return false; }
         const num = parseFloat(val);
-        if (isNaN(num) || (type === 'lat' && (num < -90 || num > 90))
+        if (isNaN(num) || (type === 'lat' && (num < -90  || num > 90))
                        || (type === 'lng' && (num < -180 || num > 180))) {
             input.classList.remove('valid'); input.classList.add('invalid');
             errorEl.textContent = type === 'lat' ? 'Latitude must be -90 to 90.' : 'Longitude must be -180 to 180.';
@@ -433,7 +347,6 @@ Give a concise 3–4 sentence plain-English analysis of what this data suggests 
         errorEl.style.display = 'none'; return true;
     }
 
-    // ── GitHub helpers ─────────────────────────────────────────────
     async function ghGet(path) {
         const { owner, repo, token } = GITHUB_CONFIG;
         const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
@@ -442,7 +355,6 @@ Give a concise 3–4 sentence plain-English analysis of what this data suggests 
         if (!res.ok) throw new Error(`GET ${path} failed (${res.status})`);
         return res.json();
     }
-
     async function ghPut(path, content, sha, message) {
         const { owner, repo, token, branch } = GITHUB_CONFIG;
         const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
@@ -452,88 +364,52 @@ Give a concise 3–4 sentence plain-English analysis of what this data suggests 
         });
         if (!res.ok) { const e = await res.json(); throw new Error(e.message || `PUT ${path} failed (${res.status})`); }
     }
-
     async function ghCreate(path, content, message) {
         const { owner, repo, token, branch } = GITHUB_CONFIG;
         const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
             method: 'PUT',
-            headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+            headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json`, 'Content-Type': 'application/json' },
             body: JSON.stringify({ message, content: btoa(content), branch })
         });
         if (!res.ok) { const e = await res.json(); throw new Error(e.message || `CREATE ${path} failed (${res.status})`); }
     }
 
-    // ── Submit ─────────────────────────────────────────────────────
     async function submitSession() {
-        if (!parsedSession) {
-            showStatus('error', 'No file loaded.', 'Please upload a CSV file first.');
-            return;
-        }
+        if (!parsedSession) { showStatus('error', 'No file loaded.', 'Please upload a CSV file first.'); return; }
         const latOk = validateCoord(document.getElementById('lat-input'), 'lat');
         const lngOk = validateCoord(document.getElementById('lng-input'), 'lng');
         if (!latOk || !lngOk) return;
-
         const lat = parseFloat(document.getElementById('lat-input').value);
         const lng = parseFloat(document.getElementById('lng-input').value);
         const btn = document.getElementById('submit-btn');
         btn.disabled = true;
-
-        if (!configReady()) {
-            showStatus('error', 'config.js not configured.', 'Cannot write to GitHub without credentials.');
-            btn.disabled = false;
-            return;
-        }
-
+        if (!configReady()) { showStatus('error', 'config.js not configured.', 'Cannot write to GitHub without credentials.'); btn.disabled = false; return; }
         showStatus('saving', 'Saving...', 'Fetching session index from GitHub…');
-
         try {
             const sessionsFile = await ghGet('sessions.json');
             const sessions     = JSON.parse(atob(sessionsFile.content.replace(/\n/g,'')));
-            const nextNum  = sessions.length + 1;
-            const id       = `session_${String(nextNum).padStart(3,'0')}`;
-            const filePath = `readings/${id}.json`;
-
-            const sessionData = {
-                id,
-                date:        parsedSession.date,
-                coordinates: [lat, lng],
-                readings:    parsedSession.readings
-            };
-
+            const nextNum      = sessions.length + 1;
+            const id           = `session_${String(nextNum).padStart(3,'0')}`;
+            const filePath     = `readings/${id}.json`;
+            const sessionData  = { id, date: parsedSession.date, coordinates: [lat, lng], readings: parsedSession.readings };
             showStatus('saving', 'Saving...', `Writing ${filePath}…`);
             await ghCreate(filePath, JSON.stringify(sessionData, null, 2), `Add ${id}`);
-
             const r       = parsedSession.readings;
-            const summary = {
-                id, file: filePath, date: parsedSession.date,
-                timeStart: r[0].time, timeEnd: r[r.length-1].time,
-                avgClear: parsedSession.avgClear, peakClear: parsedSession.peakClear,
-                rowCount: r.length, coordinates: [lat, lng]
-            };
-
+            const summary = { id, file: filePath, date: parsedSession.date, timeStart: r[0].time, timeEnd: r[r.length-1].time, avgClear: parsedSession.avgClear, peakClear: parsedSession.peakClear, rowCount: r.length, coordinates: [lat, lng] };
             showStatus('saving', 'Saving...', 'Updating sessions index…');
             sessions.push(summary);
-            await ghPut('sessions.json', JSON.stringify(sessions, null, 2), sessionsFile.sha,
-                        `Add ${id} to sessions index`);
-
-            showStatus('success', `${id} saved!`,
-                `${r.length} readings committed to ${filePath}. The map will update shortly.`);
-
-            // Reset form
+            await ghPut('sessions.json', JSON.stringify(sessions, null, 2), sessionsFile.sha, `Add ${id} to sessions index`);
+            showStatus('success', `${id} saved!`, `${r.length} readings committed to ${filePath}. The map will update shortly.`);
             parsedSession = null;
             dropZone.classList.remove('has-file');
             dropZone.querySelector('.drop-zone-text').innerHTML = `Drop your CSV here or <strong>click to browse</strong>`;
             document.getElementById('csv-preview').classList.remove('visible');
             document.getElementById('csv-file').value = '';
             document.getElementById('analysis-card').classList.remove('visible');
-            ['lat-input','lng-input'].forEach(id => {
-                const el = document.getElementById(id); el.value = ''; el.className = '';
-            });
-
+            ['lat-input','lng-input'].forEach(id => { const el = document.getElementById(id); el.value = ''; el.className = ''; });
         } catch(err) {
             showStatus('error', 'Save failed.', err.message);
         }
-
         btn.disabled = false;
     }
 
