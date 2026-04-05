@@ -141,7 +141,7 @@
 
         <div class="format-hint">
             <strong>Expected CSV format</strong>
-            Each row: <code>yyyy/mm/dd,hh:mm:ss,F1,F2,F3,F4,F5,F6,F7,F8,NIR,Clear</code><br>
+            Each row: <code>yyyy/mm/dd,hh:mm:ss,F1,F2,F3,F4,F5,F6,F7,F8,NIR,Clear,Lux_Est</code><br>
             One row per 2-second reading. No header row required (it will be skipped automatically if present).
         </div>
 
@@ -162,6 +162,7 @@
                     <div class="preview-row"><span class="preview-label">Time range</span>  <span class="preview-val" id="prev-time"></span></div>
                     <div class="preview-row"><span class="preview-label">Avg Clear</span>   <span class="preview-val" id="prev-avg"></span></div>
                     <div class="preview-row"><span class="preview-label">Peak Clear</span>  <span class="preview-val" id="prev-peak"></span></div>
+                    <div class="preview-row"><span class="preview-label">Avg Lux_Est</span>  <span class="preview-val" id="prev-lux"></span></div>
                 </div>
                 <div class="field-error" id="file-error"></div>
             </div>
@@ -245,9 +246,9 @@
             const readings = [];
             for (const line of lines) {
                 const parts = line.split(',').map(p => p.trim());
-                if (parts.length !== 12) continue;
+                if (parts.length !== 13) continue;
                 if (isNaN(parts[2])) continue;
-                const [date, time, f1,f2,f3,f4,f5,f6,f7,f8,nir,clear] = parts;
+                const [date, time, f1,f2,f3,f4,f5,f6,f7,f8,nir,clear,lux_est] = parts;
                 if (!/^\d{4}\/\d{2}\/\d{2}$/.test(date)) continue;
                 if (!/^\d{2}:\d{2}:\d{2}$/.test(time))   continue;
                 readings.push({ time, F1:+f1, F2:+f2, F3:+f3, F4:+f4, F5:+f5, F6:+f6, F7:+f7, F8:+f8, NIR:+nir, Clear:+clear });
@@ -262,8 +263,10 @@
             const date     = lines.find(l => /^\d{4}\/\d{2}\/\d{2}/.test(l))?.split(',')[0] || '—';
             const clears   = readings.map(r => r.Clear);
             const avgClear = Math.round(clears.reduce((a,b) => a+b,0) / clears.length);
+            const luxes   = readings.map(r => r.Lux_Est);
+            const avgLux   = Math.round(luxes.reduce((a,b) => a+b,0) / luxes.length);
             const peak     = Math.max(...clears);
-            parsedSession  = { date, readings, avgClear, peakClear: peak };
+            parsedSession  = { date, readings, avgClear, peakClear: peak, avgLux };
 
             dropZone.classList.add('has-file');
             dropZone.querySelector('.drop-zone-text').innerHTML = `<strong>${file.name}</strong> loaded`;
@@ -273,6 +276,7 @@
             document.getElementById('prev-time').textContent  = `${readings[0].time} – ${readings[readings.length-1].time}`;
             document.getElementById('prev-avg').textContent   = avgClear;
             document.getElementById('prev-peak').textContent  = peak;
+            document.getElementById('prev-lux').textContent   = avgLux;
             document.getElementById('csv-preview').classList.add('visible');
 
             runAnalysis(parsedSession);
@@ -304,6 +308,7 @@
             peakClear: session.peakClear,
             minClear:  Math.min(...clears),
             avgNIR:    Math.round(nirs.reduce((a,b) => a+b, 0) / nirs.length),
+            avgLux:    session.avgLux,
             avgBands:  ['F1','F2','F3','F4','F5','F6','F7','F8'].map(b => {
                 const avg = Math.round(r.reduce((s, row) => s + row[b], 0) / r.length);
                 return `${b}=${avg}`;
