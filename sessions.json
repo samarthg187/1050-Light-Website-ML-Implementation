@@ -4,10 +4,10 @@
     "file": "readings/session_001.json",
     "date": "2024/03/15",
     "timeStart": "07:30:00",
-    "timeEnd": "07:45:58",
+    "timeEnd": "07:30:58",
     "avgClear": 312,
     "peakClear": 480,
-    "rowCount": 450,
+    "rowCount": 30,
     "coordinates": [
       42.9837,
       -81.2497
@@ -16,15 +16,141 @@
   {
     "id": "session_002",
     "file": "readings/session_002.json",
-    "date": "2024/03/16",
-    "timeStart": "19:00:00",
-    "timeEnd": "19:03:10",
-    "avgClear": 476,
-    "peakClear": 988,
-    "rowCount": 96,
+    "date": "2024/03/15",
+    "timeStart": "09:00:00",
+    "timeEnd": "09:20:00",
+    "avgClear": 711,
+    "peakClear": 895,
+    "rowCount": 600,
     "coordinates": [
-      42.9849,
-      -81.2453
+      42.975,
+      -81.255
+    ]
+  },
+  {
+    "id": "session_003",
+    "file": "readings/session_003.json",
+    "date": "2024/03/16",
+    "timeStart": "13:00:00",
+    "timeEnd": "13:12:00",
+    "avgClear": 902,
+    "peakClear": 999,
+    "rowCount": 360,
+    "coordinates": [
+      42.9921,
+      -81.256
+    ]
+  },
+  {
+    "id": "session_004",
+    "file": "readings/session_004.json",
+    "date": "2024/03/16",
+    "timeStart": "20:30:00",
+    "timeEnd": "20:33:58",
+    "avgClear": 135,
+    "peakClear": 187,
+    "rowCount": 120,
+    "coordinates": [
+      42.968,
+      -81.26
+    ]
+  },
+  {
+    "id": "session_005",
+    "file": "readings/session_005.json",
+    "date": "2024/03/17",
+    "timeStart": "08:15:00",
+    "timeEnd": "08:20:58",
+    "avgClear": 628,
+    "peakClear": 755,
+    "rowCount": 180,
+    "coordinates": [
+      43.0012,
+      -81.27
+    ]
+  },
+  {
+    "id": "session_006",
+    "file": "readings/session_006.json",
+    "date": "2024/03/17",
+    "timeStart": "22:00:00",
+    "timeEnd": "22:02:58",
+    "avgClear": 61,
+    "peakClear": 91,
+    "rowCount": 90,
+    "coordinates": [
+      42.98,
+      -81.265
+    ]
+  },
+  {
+    "id": "session_007",
+    "file": "readings/session_007.json",
+    "date": "2024/03/18",
+    "timeStart": "12:45:00",
+    "timeEnd": "12:49:58",
+    "avgClear": 917,
+    "peakClear": 986,
+    "rowCount": 150,
+    "coordinates": [
+      42.995,
+      -81.248
+    ]
+  },
+  {
+    "id": "session_008",
+    "file": "readings/session_008.json",
+    "date": "2024/03/18",
+    "timeStart": "18:30:00",
+    "timeEnd": "18:33:58",
+    "avgClear": 505,
+    "peakClear": 627,
+    "rowCount": 120,
+    "coordinates": [
+      42.971,
+      -81.241
+    ]
+  },
+  {
+    "id": "session_009",
+    "file": "readings/session_009.json",
+    "date": "2024/03/19",
+    "timeStart": "07:00:00",
+    "timeEnd": "07:04:58",
+    "avgClear": 338,
+    "peakClear": 435,
+    "rowCount": 150,
+    "coordinates": [
+      43.005,
+      -81.258
+    ]
+  },
+  {
+    "id": "session_010",
+    "file": "readings/session_010.json",
+    "date": "2024/03/19",
+    "timeStart": "23:15:00",
+    "timeEnd": "23:17:58",
+    "avgClear": 31,
+    "peakClear": 52,
+    "rowCount": 90,
+    "coordinates": [
+      42.983,
+      -81.232
+    ]
+  },
+  {
+    "id": "session_011",
+    "file": "readings/session_011.json",
+    "date": "2024/03/20",
+    "timeStart": "10:00:00",
+    "timeEnd": "10:05:58",
+    "avgClear": 768,
+    "peakClear": 897,
+    "rowCount": 180,
+    "coordinates": [
+      42.989,
+      -81.275
     ]
   }
 ]
