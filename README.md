@@ -23,10 +23,8 @@ The sensor device records light intensity readings every 2 seconds across 10 spe
 │   ├── session_001.json            # Full reading data for session 1
 │   ├── session_002.json            # Full reading data for session 2
 │   └── ...                         # Additional sessions added over time
-├── netlify/
-│   └── functions/
-│       └── analyse.js              # Serverless function — AI session analysis
-├── netlify.toml                    # Netlify build + function configuration
+├── api/
+│   └── analyse.js                  # Vercel serverless function — AI session analysis
 ├── config.js                       # GitHub API credentials (gitignored — never commit)
 └── .gitignore
 ```
@@ -46,7 +44,7 @@ Opened via `SessionDetail.html?session=session_001`. Shows:
 - Clicking a segment opens a bar chart modal displaying all 10 spectral channels scaled relative to the highest value in that reading
 
 ### Submit Reading (`SubmitReading.html`)
-Allows uploading a CSV file from the sensor device. The file is parsed in the browser, previewed with key stats, and then an AI-generated analysis of the session is shown automatically. Once coordinates are entered, the session is committed directly to the `readings/` folder via the GitHub API and `sessions.json` is updated. Requires `config.js` to be configured locally (see Setup).
+Allows uploading a CSV file from the sensor device. The file is parsed in the browser, previewed with key stats, and an AI-generated analysis of the session is shown automatically. Once coordinates are entered, the session is committed directly to the `readings/` folder via the GitHub API and `sessions.json` is updated. Requires `config.js` to be configured locally (see Setup).
 
 ### Overview (`Aboutuspage.html`)
 Documents the hardware setup, sensor firmware (v2), and CSV data format for reference.
@@ -94,21 +92,21 @@ One row is written every 2 seconds. Each power-on cycle creates a new file named
 
 ## AI Analysis
 
-When a CSV is uploaded on the Submit page, the session summary is automatically sent to a Netlify serverless function (`netlify/functions/analyse.js`) which calls the Anthropic API to generate a plain-English light pollution assessment covering:
+When a CSV is uploaded on the Submit page, the session summary is automatically sent to a Vercel serverless function (`api/analyse.js`) which calls the Anthropic API to generate a plain-English light pollution assessment covering:
 
 1. Whether the session is likely to represent light pollution
 2. The probable type of light pollution and artificial light source
 3. Blue light content and its health/ecological implications
 4. Overall brightness and spectral character
 
-The AI analysis requires the site to be deployed on Netlify with the `ANTHROPIC_API_KEY` environment variable set (see Deployment).
+The AI analysis requires the site to be deployed on Vercel with the `ANTHROPIC_API_KEY` environment variable set (see Deployment).
 
 ---
 
 ## Setup
 
 ### Viewing the live site
-The site is hosted on Netlify. Once deployed, it will be accessible at your Netlify project URL.
+The site is hosted on Vercel. Once deployed, it will be accessible at your Vercel project URL.
 
 ### Uploading a new session locally
 1. Generate a fresh GitHub Personal Access Token with `repo` scope at **GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)**
@@ -123,7 +121,7 @@ const GITHUB_CONFIG = {
 };
 ```
 
-3. Open `SubmitReading.html` as a local file in your browser (`file:///...`), not via the Netlify URL
+3. Open `SubmitReading.html` as a local file in your browser (`file:///...`), not via the Vercel URL
 4. Drop in the CSV from the SD card, enter the coordinates of the recording location, and click **Save Session**
 5. The map will update within 30 seconds as it polls `sessions.json` on a 30-second interval
 
@@ -132,13 +130,13 @@ Add the session JSON file to `readings/`, append a matching entry to `sessions.j
 
 ---
 
-## Deployment (Netlify)
+## Deployment (Vercel)
 
-1. Connect your GitHub repo to Netlify
-2. Set the publish directory to `.` (root) in Netlify build settings — or leave as-is, `netlify.toml` handles this
-3. Add the following environment variable in **Netlify → Site settings → Environment variables**:
+1. Connect your GitHub repo to Vercel at [vercel.com](https://vercel.com)
+2. Vercel will automatically detect the project — no build configuration needed for a static site with serverless functions in `api/`
+3. Add the following environment variable in **Vercel → Project → Settings → Environment Variables**:
    - `ANTHROPIC_API_KEY` — your Anthropic API key (required for AI session analysis)
-4. Deploy — Netlify will automatically detect and deploy the serverless function in `netlify/functions/`
+4. Deploy — Vercel will automatically detect and deploy the serverless function in `api/`
 
 ---
 
@@ -168,9 +166,9 @@ The homepage only fetches `sessions.json` — individual session files are only 
 
 - **Frontend:** HTML, CSS, JavaScript (no framework)
 - **Map:** [Leaflet.js](https://leafletjs.com/) + OpenStreetMap tiles
-- **AI Analysis:** Anthropic Claude (claude-haiku-4-5) via Netlify serverless function
+- **AI Analysis:** Anthropic Claude (claude-haiku-4-5) via Vercel serverless function
 - **Data storage:** GitHub repo (JSON files committed via GitHub Contents API)
-- **Hosting:** Netlify
+- **Hosting:** Vercel
 - **Fonts:** Space Mono, DM Sans (Google Fonts)
 
 ---
@@ -178,14 +176,14 @@ The homepage only fetches `sessions.json` — individual session files are only 
 ## Security Notes
 
 - `config.js` contains a GitHub Personal Access Token and **must never be committed to the repository**. It is listed in `.gitignore`. If a token is accidentally exposed, revoke it immediately at GitHub → Settings → Developer settings → Personal access tokens.
-- The `ANTHROPIC_API_KEY` lives only in Netlify's environment variables — it is never exposed to the browser. All AI calls go through the serverless function.
+- The `ANTHROPIC_API_KEY` lives only in Vercel's environment variables — it is never exposed to the browser. All AI calls go through the serverless function in `api/`.
 
 ---
 
 ## Team
 
 - **Justin** — Website, data infrastructure, frontend development
-- **Samartha** — AI integration, sensor hardware, sensor coder, prototype assembly
+- **Samarth** — AI integration, sensor hardware, sensor coder, prototype assembly
 - **Pol** — CAD design, prototype assembly
 - **Aroma** — Presentation coordinator
 - **Taylor** — Presentation coordinator
