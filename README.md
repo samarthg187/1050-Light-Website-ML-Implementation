@@ -106,7 +106,7 @@ The AI analysis requires the site to be deployed on Vercel with the `ANTHROPIC_A
 ## Setup
 
 ### Viewing the live site
-The site is hosted on Vercel. Once deployed, it will be accessible at your Vercel project URL.
+The site is hosted on Vercel at: https://1050-light-website-ml-implementatio.vercel.app/
 
 ### Uploading a new session locally
 1. Generate a fresh GitHub Personal Access Token with `repo` scope at **GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)**
@@ -127,16 +127,6 @@ const GITHUB_CONFIG = {
 
 ### Adding sessions manually
 Add the session JSON file to `readings/`, append a matching entry to `sessions.json`, and push.
-
----
-
-## Deployment (Vercel)
-
-1. Connect your GitHub repo to Vercel at [vercel.com](https://vercel.com)
-2. Vercel will automatically detect the project — no build configuration needed for a static site with serverless functions in `api/`
-3. Add the following environment variable in **Vercel → Project → Settings → Environment Variables**:
-   - `ANTHROPIC_API_KEY` — your Anthropic API key (required for AI session analysis)
-4. Deploy — Vercel will automatically detect and deploy the serverless function in `api/`
 
 ---
 
