@@ -185,7 +185,7 @@ The homepage only fetches `sessions.json` — individual session files are only 
 ## Team
 
 - **Justin** — Website, data infrastructure, frontend development
-- **Samartha** — AI integration, sensor hardware, sensor coder, prototype assembly
+- **Samarth** — AI integration, sensor hardware, sensor coder, prototype assembly
 - **Pol** — CAD design, prototype assembly
 - **Aroma** — Presentation coordinator
 - **Taylor** — Presentation coordinator
